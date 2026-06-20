@@ -1,4 +1,8 @@
 import { Module } from '@nestjs/common';
+import { ValidationEngineService } from './engine/validation-engine.service';
 
-@Module({})
+@Module({
+  providers: [ValidationEngineService],
+  exports: [ValidationEngineService],
+})
 export class PoliticasModule {}
