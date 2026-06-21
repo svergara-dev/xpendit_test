@@ -64,6 +64,7 @@ src/
 - `chore` — config, dependencies, CI, non-code changes
 
 **Rules:**
+- **Only commit when explicitly instructed by the user** — never auto-commit
 - Language: **English** for commit messages (even though business domain is Spanish)
 - Scope: optional, use module name (e.g., `politicas`, `exchange-rate`, `gastos`)
 - Keep description under 72 characters
