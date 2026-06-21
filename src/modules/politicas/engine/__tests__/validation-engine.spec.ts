@@ -64,6 +64,25 @@ describe('validarGasto - Motor de Reglas', () => {
       expect(resultado.status).toBe(ExpenseStatus.APROBADO);
       expect(resultado.alertas).toHaveLength(0);
     });
+
+    it('debería devolver APROBADO para antigüedad exacta de 30 días (frontera)', () => {
+      const fecha = new Date();
+      fecha.setDate(fecha.getDate() - 30);
+      const gasto = crearGasto({
+        monto: 50,
+        fecha: fecha.toISOString().split('T')[0],
+      });
+      const resultado = validarGasto(gasto, empleadoBase, politicaBase);
+      expect(resultado.status).toBe(ExpenseStatus.APROBADO);
+      expect(resultado.alertas).toHaveLength(0);
+    });
+
+    it('debería devolver APROBADO para monto food exacto de 100 USD (frontera)', () => {
+      const gasto = crearGasto({ monto: 100 });
+      const resultado = validarGasto(gasto, empleadoBase, politicaBase);
+      expect(resultado.status).toBe(ExpenseStatus.APROBADO);
+      expect(resultado.alertas).toHaveLength(0);
+    });
   });
 
   describe('Escenario PENDIENTE', () => {
@@ -81,6 +100,46 @@ describe('validarGasto - Motor de Reglas', () => {
 
     it('debería devolver PENDIENTE si monto requiere revisión (100-150)', () => {
       const gasto = crearGasto({ monto: 125 });
+      const resultado = validarGasto(gasto, empleadoBase, politicaBase);
+      expect(resultado.status).toBe(ExpenseStatus.PENDIENTE);
+      expect(resultado.alertas.length).toBeGreaterThan(0);
+    });
+
+    it('debería devolver PENDIENTE para antigüedad exacta de 31 días (frontera)', () => {
+      const fecha = new Date();
+      fecha.setDate(fecha.getDate() - 31);
+      const gasto = crearGasto({
+        monto: 50,
+        fecha: fecha.toISOString().split('T')[0],
+      });
+      const resultado = validarGasto(gasto, empleadoBase, politicaBase);
+      expect(resultado.status).toBe(ExpenseStatus.PENDIENTE);
+      expect(resultado.alertas.length).toBeGreaterThan(0);
+      expect(resultado.alertas[0].codigo).toBe('LIMITE_ANTIGUEDAD');
+    });
+
+    it('debería devolver PENDIENTE para antigüedad exacta de 60 días (frontera)', () => {
+      const fecha = new Date();
+      fecha.setDate(fecha.getDate() - 60);
+      const gasto = crearGasto({
+        monto: 50,
+        fecha: fecha.toISOString().split('T')[0],
+      });
+      const resultado = validarGasto(gasto, empleadoBase, politicaBase);
+      expect(resultado.status).toBe(ExpenseStatus.PENDIENTE);
+      expect(resultado.alertas.length).toBeGreaterThan(0);
+    });
+
+    it('debería devolver PENDIENTE para monto food exacto de 101 USD (frontera)', () => {
+      const gasto = crearGasto({ monto: 101 });
+      const resultado = validarGasto(gasto, empleadoBase, politicaBase);
+      expect(resultado.status).toBe(ExpenseStatus.PENDIENTE);
+      expect(resultado.alertas.length).toBeGreaterThan(0);
+      expect(resultado.alertas[0].codigo).toBe('LIMITE_CATEGORIA');
+    });
+
+    it('debería devolver PENDIENTE para monto food exacto de 150 USD (frontera)', () => {
+      const gasto = crearGasto({ monto: 150 });
       const resultado = validarGasto(gasto, empleadoBase, politicaBase);
       expect(resultado.status).toBe(ExpenseStatus.PENDIENTE);
       expect(resultado.alertas.length).toBeGreaterThan(0);
@@ -113,6 +172,27 @@ describe('validarGasto - Motor de Reglas', () => {
       expect(resultado.status).toBe(ExpenseStatus.RECHAZADO);
       expect(resultado.alertas.length).toBeGreaterThan(0);
     });
+
+    it('debería devolver RECHAZADO para antigüedad exacta de 61 días (frontera)', () => {
+      const fecha = new Date();
+      fecha.setDate(fecha.getDate() - 61);
+      const gasto = crearGasto({
+        monto: 50,
+        fecha: fecha.toISOString().split('T')[0],
+      });
+      const resultado = validarGasto(gasto, empleadoBase, politicaBase);
+      expect(resultado.status).toBe(ExpenseStatus.RECHAZADO);
+      expect(resultado.alertas.length).toBeGreaterThan(0);
+      expect(resultado.alertas[0].codigo).toBe('LIMITE_ANTIGUEDAD');
+    });
+
+    it('debería devolver RECHAZADO para monto food exacto de 151 USD (frontera)', () => {
+      const gasto = crearGasto({ monto: 151 });
+      const resultado = validarGasto(gasto, empleadoBase, politicaBase);
+      expect(resultado.status).toBe(ExpenseStatus.RECHAZADO);
+      expect(resultado.alertas.length).toBeGreaterThan(0);
+      expect(resultado.alertas[0].codigo).toBe('LIMITE_CATEGORIA');
+    });
   });
 
   describe('Prioridades', () => {
@@ -141,10 +221,38 @@ describe('validarGasto - Motor de Reglas', () => {
       const resultado = validarGasto(gasto, empleadoBase, politicaBase);
       expect(resultado.status).toBe(ExpenseStatus.PENDIENTE);
     });
+
+    it('RECHAZADO por antigüedad tiene prioridad sobre PENDIENTE por límite', () => {
+      const fecha = new Date();
+      fecha.setDate(fecha.getDate() - 90); // RECHAZADO por antigüedad
+      const gasto = crearGasto({
+        monto: 125, // PENDIENTE por límite
+        fecha: fecha.toISOString().split('T')[0],
+      });
+      const resultado = validarGasto(gasto, empleadoBase, politicaBase);
+      expect(resultado.status).toBe(ExpenseStatus.RECHAZADO);
+    });
+
+    it('RECHAZADO por antigüedad tiene prioridad sobre APROBADO por límite', () => {
+      const fecha = new Date();
+      fecha.setDate(fecha.getDate() - 90); // RECHAZADO por antigüedad
+      const gasto = crearGasto({
+        monto: 50, // APROBADO por límite
+        fecha: fecha.toISOString().split('T')[0],
+      });
+      const resultado = validarGasto(gasto, empleadoBase, politicaBase);
+      expect(resultado.status).toBe(ExpenseStatus.RECHAZADO);
+    });
+
+    it('RECHAZADO por límite tiene prioridad sobre APROBADO por antigüedad', () => {
+      const gasto = crearGasto({ monto: 200 }); // RECHAZADO por límite
+      const resultado = validarGasto(gasto, empleadoBase, politicaBase);
+      expect(resultado.status).toBe(ExpenseStatus.RECHAZADO);
+    });
   });
 
   describe('Casos por defecto', () => {
-    it('debería devolver PENDIENTE si no aplica ninguna regla', () => {
+    it('debería devolver APROBADO si la única regla que aplica retorna APROBADO', () => {
       const politicaVacia: Politica = {
         moneda_base: 'USD',
         limite_antiguedad: {
@@ -160,6 +268,20 @@ describe('validarGasto - Motor de Reglas', () => {
       });
       const resultado = validarGasto(gasto, empleadoBase, politicaVacia);
       expect(resultado.status).toBe(ExpenseStatus.APROBADO);
+    });
+
+    it('debería seguir prioridad RECHAZADO > PENDIENTE > APROBADO cuando múltiples reglas aplican', () => {
+      const gasto = crearGasto({
+        monto: 125, // PENDIENTE por límite food (100 < 125 ≤ 150)
+        categoria: 'food',
+      });
+      const resultado = validarGasto(gasto, empleadoBase, politicaBase);
+      // antigüedad: APROBADO (0 días ≤ 30)
+      // límite-categoría: PENDIENTE (100 < 125 ≤ 150)
+      // Prioridad: PENDIENTE > APROBADO
+      expect(resultado.status).toBe(ExpenseStatus.PENDIENTE);
+      expect(resultado.alertas.length).toBeGreaterThan(0);
+      expect(resultado.alertas[0].codigo).toBe('LIMITE_CATEGORIA');
     });
   });
 

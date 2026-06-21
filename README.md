@@ -57,6 +57,20 @@ Esto procesará el archivo `gastos_historicos.csv` y generará:
 - `ANALISIS.md` — Reporte de hallazgos
 - `scripts/results.json` — Resultados detallados
 
+### Nota sobre el caso por defecto (PENDIENTE)
+
+La especificación del desafío indica que el estado por defecto debe ser PENDIENTE cuando
+"no aplica ninguna regla anterior". Sin embargo, con las reglas actuales este
+caso es inalcanzable porque:
+
+- `evaluarAntiguedad` SIEMPRE retorna un status (todo gasto tiene fecha válida)
+- `evaluarLimiteCategoria` retorna APROBADO si no hay límite definido para la categoría
+- `evaluarReglaCentroCosto` retorna APROBADO si no hay regla aplicable para el centro de costo
+
+Por lo tanto, siempre habrá al menos un APROBADO en los resultados, y la
+condición "ninguna regla aplica" nunca se cumple. El default PENDIENTE solo
+sería alcanzable si se agregaran reglas que puedan retornar un estado "no aplica".
+
 ## Arquitectura
 
 ```

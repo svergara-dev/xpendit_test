@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import * as dotenv from 'dotenv';
 import { parse } from 'csv-parse/sync';
 import { CsvRow, GastoResult, DuplicateGroup, AnalysisOutput } from './types';
 import { DEFAULT_POLICY } from './policy';
@@ -7,8 +8,15 @@ import { validarGasto } from '../src/modules/politicas/engine/validation-engine'
 import { Empleado } from '../src/shared/interfaces/empleado.interface';
 import { Gasto } from '../src/shared/interfaces/gasto.interface';
 
+dotenv.config({ path: path.resolve(__dirname, '..', '.env') });
+
 const EXCHANGE_RATES_API = 'https://openexchangerates.org/api';
-const APP_ID = process.env.OPEN_EXCHANGE_RATES_APP_ID || '83e844e0b7654cc9ae82e0419d1d65dd';
+const APP_ID = process.env.OPEN_EXCHANGE_RATES_APP_ID;
+if (!APP_ID) {
+  throw new Error(
+    'OPEN_EXCHANGE_RATES_APP_ID environment variable is required. Copy .env.example to .env and add your API key.',
+  );
+}
 
 function parseCsv(filePath: string): CsvRow[] {
   const content = fs.readFileSync(path.resolve(__dirname, '..', filePath), 'utf-8');
@@ -38,8 +46,20 @@ async function fetchRatesForDate(date: string): Promise<{ [key: string]: number 
   }
 }
 
-async function fetchRatesGroupedByDate(rows: CsvRow[]): Promise<Map<string, { [key: string]: number }>> {
-  const uniqueDates = [...new Set(rows.map(r => r.fecha))].sort();
+async function validateApiKey(): Promise<boolean> {
+  const url = `${EXCHANGE_RATES_API}/usage.json?app_id=${APP_ID}`;
+  try {
+    const response = await fetch(url);
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
+async function fetchRatesGroupedByDate(
+  rows: CsvRow[],
+): Promise<Map<string, { [key: string]: number }>> {
+  const uniqueDates = [...new Set(rows.map((r) => r.fecha))].sort();
   const ratesMap = new Map<string, { [key: string]: number }>();
 
   console.log(`Fetching exchange rates for ${uniqueDates.length} unique dates...`);
@@ -53,7 +73,11 @@ async function fetchRatesGroupedByDate(rows: CsvRow[]): Promise<Map<string, { [k
   return ratesMap;
 }
 
-function convertToUSD(amount: number, fromCurrency: string, rates: { [key: string]: number }): number {
+function convertToUSD(
+  amount: number,
+  fromCurrency: string,
+  rates: { [key: string]: number },
+): number {
   if (fromCurrency === 'USD') return amount;
   const rate = rates[fromCurrency];
   if (!rate) return amount;
@@ -88,7 +112,7 @@ function detectDuplicates(rows: CsvRow[]): DuplicateGroup[] {
 }
 
 function detectNegatives(rows: CsvRow[]): string[] {
-  return rows.filter(r => r.monto < 0).map(r => r.gasto_id);
+  return rows.filter((r) => r.monto < 0).map((r) => r.gasto_id);
 }
 
 function buildEmpleado(row: CsvRow): Empleado {
@@ -121,16 +145,18 @@ function generateAnalysisMd(output: AnalysisOutput): string {
   lines.push('| Estado | Cantidad | Monto Total (USD) |');
   lines.push('|---|---|---|');
 
-  const aprobados = output.results.filter(r => r.status === 'APROBADO');
-  const pendientes = output.results.filter(r => r.status === 'PENDIENTE');
-  const rechazados = output.results.filter(r => r.status === 'RECHAZADO');
+  const aprobados = output.results.filter((r) => r.status === 'APROBADO');
+  const pendientes = output.results.filter((r) => r.status === 'PENDIENTE');
+  const rechazados = output.results.filter((r) => r.status === 'RECHAZADO');
 
   const sumUsd = (items: GastoResult[]) => items.reduce((sum, r) => sum + r.monto_usd, 0);
 
   lines.push(`| APROBADO | ${aprobados.length} | $${sumUsd(aprobados).toFixed(2)} |`);
   lines.push(`| PENDIENTE | ${pendientes.length} | $${sumUsd(pendientes).toFixed(2)} |`);
   lines.push(`| RECHAZADO | ${rechazados.length} | $${sumUsd(rechazados).toFixed(2)} |`);
-  lines.push(`| **Total** | **${output.summary.total}** | **$${output.summary.monto_total_usd.toFixed(2)}** |`);
+  lines.push(
+    `| **Total** | **${output.summary.total}** | **$${output.summary.monto_total_usd.toFixed(2)}** |`,
+  );
   lines.push('');
 
   lines.push('## Anomalías Detectadas');
@@ -170,8 +196,10 @@ function generateAnalysisMd(output: AnalysisOutput): string {
   lines.push('| ID | Empleado | Original | USD | Estado | Alertas |');
   lines.push('|---|---|---|---|---|---|');
   for (const r of output.results) {
-    const alertas = r.alertas.length > 0 ? r.alertas.map(a => a.codigo).join(', ') : '-';
-    lines.push(`| ${r.gasto_id} | ${r.empleado} | ${r.monto_original} ${r.moneda} | $${r.monto_usd.toFixed(2)} | ${r.status} | ${alertas} |`);
+    const alertas = r.alertas.length > 0 ? r.alertas.map((a) => a.codigo).join(', ') : '-';
+    lines.push(
+      `| ${r.gasto_id} | ${r.empleado} | ${r.monto_original} ${r.moneda} | $${r.monto_usd.toFixed(2)} | ${r.status} | ${alertas} |`,
+    );
   }
 
   return lines.join('\n');
@@ -179,6 +207,16 @@ function generateAnalysisMd(output: AnalysisOutput): string {
 
 async function main() {
   console.log('=== Xpendit Batch Analyzer ===\n');
+
+  const isValid = await validateApiKey();
+  if (!isValid) {
+    console.error('API key inválida o no configurada');
+    console.error('\n  Solución:');
+    console.error('  1. Obtén una API key gratuita en https://openexchangerates.org');
+    console.error('  2. Actualiza OPEN_EXCHANGE_RATES_APP_ID en el archivo .env');
+    process.exit(1);
+  }
+  console.log('API key válida\n');
 
   const rows = parseCsv('gastos_historicos.csv');
   console.log(`Loaded ${rows.length} expenses from CSV\n`);
@@ -192,7 +230,7 @@ async function main() {
   const negatives = detectNegatives(rows);
   console.log(`Found ${negatives.length} negative amount(s)\n`);
 
-  const duplicateIds = new Set(duplicates.flatMap(d => d.gastos));
+  const duplicateIds = new Set(duplicates.flatMap((d) => d.gastos));
   const negativeIds = new Set(negatives);
 
   const results: GastoResult[] = [];
@@ -220,9 +258,9 @@ async function main() {
     });
   }
 
-  const aprobados = results.filter(r => r.status === 'APROBADO').length;
-  const pendientes = results.filter(r => r.status === 'PENDIENTE').length;
-  const rechazados = results.filter(r => r.status === 'RECHAZADO').length;
+  const aprobados = results.filter((r) => r.status === 'APROBADO').length;
+  const pendientes = results.filter((r) => r.status === 'PENDIENTE').length;
+  const rechazados = results.filter((r) => r.status === 'RECHAZADO').length;
   const montoTotalUsd = results.reduce((sum, r) => sum + r.monto_usd, 0);
 
   const output: AnalysisOutput = {
