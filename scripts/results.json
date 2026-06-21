@@ -1,0 +1,1031 @@
+{
+  "summary": {
+    "total": 50,
+    "aprobados": 11,
+    "pendientes": 14,
+    "rechazados": 25,
+    "duplicados": 7,
+    "negativos": 0,
+    "monto_total_usd": 5388.89
+  },
+  "results": [
+    {
+      "gasto_id": "g_001",
+      "empleado": "Bruno Soto",
+      "cost_center": "sales_team",
+      "categoria": "food",
+      "monto_original": 50,
+      "moneda": "USD",
+      "monto_usd": 50,
+      "fecha": "2026-06-04",
+      "status": "APROBADO",
+      "alertas": [],
+      "es_duplicado": true,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_002",
+      "empleado": "Bruno Soto",
+      "cost_center": "sales_team",
+      "categoria": "food",
+      "monto_original": 120,
+      "moneda": "USD",
+      "monto_usd": 120,
+      "fecha": "2026-05-30",
+      "status": "PENDIENTE",
+      "alertas": [
+        {
+          "codigo": "LIMITE_CATEGORIA",
+          "mensaje": "Monto 120 USD requiere revisión para categoría 'food'."
+        }
+      ],
+      "es_duplicado": true,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_003",
+      "empleado": "Bruno Soto",
+      "cost_center": "sales_team",
+      "categoria": "food",
+      "monto_original": 160,
+      "moneda": "USD",
+      "monto_usd": 160,
+      "fecha": "2026-05-25",
+      "status": "RECHAZADO",
+      "alertas": [
+        {
+          "codigo": "LIMITE_CATEGORIA",
+          "mensaje": "Monto 160 USD excede límite aprobado para categoría 'food'."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_004",
+      "empleado": "Eva Luna",
+      "cost_center": "sales_team",
+      "categoria": "food",
+      "monto_original": 81000,
+      "moneda": "CLP",
+      "monto_usd": 90.18,
+      "fecha": "2026-05-20",
+      "status": "PENDIENTE",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto excede los 30 días. Requiere revisión."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_005",
+      "empleado": "Eva Luna",
+      "cost_center": "sales_team",
+      "categoria": "food",
+      "monto_original": 126000,
+      "moneda": "CLP",
+      "monto_usd": 140.28,
+      "fecha": "2026-05-16",
+      "status": "PENDIENTE",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto excede los 30 días. Requiere revisión."
+        },
+        {
+          "codigo": "LIMITE_CATEGORIA",
+          "mensaje": "Monto 140.28 USD requiere revisión para categoría 'food'."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_006",
+      "empleado": "Eva Luna",
+      "cost_center": "sales_team",
+      "categoria": "food",
+      "monto_original": 144000,
+      "moneda": "CLP",
+      "monto_usd": 158.56,
+      "fecha": "2026-05-15",
+      "status": "RECHAZADO",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto excede los 30 días. Requiere revisión."
+        },
+        {
+          "codigo": "LIMITE_CATEGORIA",
+          "mensaje": "Monto 158.56 USD excede límite aprobado para categoría 'food'."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_007",
+      "empleado": "Carla Mora",
+      "cost_center": "marketing",
+      "categoria": "food",
+      "monto_original": 1750,
+      "moneda": "MXN",
+      "monto_usd": 101.64,
+      "fecha": "2026-05-10",
+      "status": "PENDIENTE",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto excede los 30 días. Requiere revisión."
+        },
+        {
+          "codigo": "LIMITE_CATEGORIA",
+          "mensaje": "Monto 101.64 USD requiere revisión para categoría 'food'."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_008",
+      "empleado": "Carla Mora",
+      "cost_center": "marketing",
+      "categoria": "food",
+      "monto_original": 2100,
+      "moneda": "MXN",
+      "monto_usd": 121.11,
+      "fecha": "2026-05-05",
+      "status": "PENDIENTE",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto excede los 30 días. Requiere revisión."
+        },
+        {
+          "codigo": "LIMITE_CATEGORIA",
+          "mensaje": "Monto 121.11 USD requiere revisión para categoría 'food'."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_009",
+      "empleado": "Carla Mora",
+      "cost_center": "marketing",
+      "categoria": "food",
+      "monto_original": 3500,
+      "moneda": "MXN",
+      "monto_usd": 200.43,
+      "fecha": "2026-04-30",
+      "status": "RECHAZADO",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto excede los 30 días. Requiere revisión."
+        },
+        {
+          "codigo": "LIMITE_CATEGORIA",
+          "mensaje": "Monto 200.43 USD excede límite aprobado para categoría 'food'."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_010",
+      "empleado": "David Paz",
+      "cost_center": "finance",
+      "categoria": "food",
+      "monto_original": 92,
+      "moneda": "EUR",
+      "monto_usd": 107.85,
+      "fecha": "2026-04-25",
+      "status": "PENDIENTE",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto excede los 30 días. Requiere revisión."
+        },
+        {
+          "codigo": "LIMITE_CATEGORIA",
+          "mensaje": "Monto 107.85 USD requiere revisión para categoría 'food'."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_011",
+      "empleado": "Ana Reyes",
+      "cost_center": "core_engineering",
+      "categoria": "food",
+      "monto_original": 50,
+      "moneda": "USD",
+      "monto_usd": 50,
+      "fecha": "2026-06-04",
+      "status": "RECHAZADO",
+      "alertas": [
+        {
+          "codigo": "POLITICA_CENTRO_COSTO",
+          "mensaje": "El C.C. 'core_engineering' no puede reportar 'food'."
+        }
+      ],
+      "es_duplicado": true,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_012",
+      "empleado": "Ana Reyes",
+      "cost_center": "core_engineering",
+      "categoria": "food",
+      "monto_original": 120,
+      "moneda": "USD",
+      "monto_usd": 120,
+      "fecha": "2026-05-30",
+      "status": "RECHAZADO",
+      "alertas": [
+        {
+          "codigo": "LIMITE_CATEGORIA",
+          "mensaje": "Monto 120 USD requiere revisión para categoría 'food'."
+        },
+        {
+          "codigo": "POLITICA_CENTRO_COSTO",
+          "mensaje": "El C.C. 'core_engineering' no puede reportar 'food'."
+        }
+      ],
+      "es_duplicado": true,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_013",
+      "empleado": "Ana Reyes",
+      "cost_center": "core_engineering",
+      "categoria": "food",
+      "monto_original": 45000,
+      "moneda": "CLP",
+      "monto_usd": 50.16,
+      "fecha": "2026-05-25",
+      "status": "RECHAZADO",
+      "alertas": [
+        {
+          "codigo": "POLITICA_CENTRO_COSTO",
+          "mensaje": "El C.C. 'core_engineering' no puede reportar 'food'."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_014",
+      "empleado": "Ana Reyes",
+      "cost_center": "core_engineering",
+      "categoria": "software",
+      "monto_original": 75,
+      "moneda": "USD",
+      "monto_usd": 75,
+      "fecha": "2026-05-20",
+      "status": "PENDIENTE",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto excede los 30 días. Requiere revisión."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_015",
+      "empleado": "Ana Reyes",
+      "cost_center": "core_engineering",
+      "categoria": "transport",
+      "monto_original": 150,
+      "moneda": "USD",
+      "monto_usd": 150,
+      "fecha": "2026-05-16",
+      "status": "PENDIENTE",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto excede los 30 días. Requiere revisión."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_016",
+      "empleado": "Bruno Soto",
+      "cost_center": "sales_team",
+      "categoria": "software",
+      "monto_original": 50,
+      "moneda": "USD",
+      "monto_usd": 50,
+      "fecha": "2026-04-09",
+      "status": "RECHAZADO",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto tiene 73 días. Excede el límite máximo de 60 días."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_017",
+      "empleado": "Carla Mora",
+      "cost_center": "marketing",
+      "categoria": "other",
+      "monto_original": 50,
+      "moneda": "USD",
+      "monto_usd": 50,
+      "fecha": "2026-03-30",
+      "status": "RECHAZADO",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto tiene 83 días. Excede el límite máximo de 60 días."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_018",
+      "empleado": "David Paz",
+      "cost_center": "finance",
+      "categoria": "lodging",
+      "monto_original": 50,
+      "moneda": "USD",
+      "monto_usd": 50,
+      "fecha": "2026-03-25",
+      "status": "RECHAZADO",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto tiene 88 días. Excede el límite máximo de 60 días."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_019",
+      "empleado": "Eva Luna",
+      "cost_center": "sales_team",
+      "categoria": "software",
+      "monto_original": 50,
+      "moneda": "USD",
+      "monto_usd": 50,
+      "fecha": "2026-02-25",
+      "status": "RECHAZADO",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto tiene 116 días. Excede el límite máximo de 60 días."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_020",
+      "empleado": "Ana Reyes",
+      "cost_center": "core_engineering",
+      "categoria": "transport",
+      "monto_original": 50,
+      "moneda": "USD",
+      "monto_usd": 50,
+      "fecha": "2026-02-16",
+      "status": "RECHAZADO",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto tiene 125 días. Excede el límite máximo de 60 días."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_021",
+      "empleado": "Bruno Soto",
+      "cost_center": "sales_team",
+      "categoria": "other",
+      "monto_original": 50,
+      "moneda": "USD",
+      "monto_usd": 50,
+      "fecha": "2026-02-08",
+      "status": "RECHAZADO",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto tiene 133 días. Excede el límite máximo de 60 días."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_022",
+      "empleado": "Carla Mora",
+      "cost_center": "marketing",
+      "categoria": "software",
+      "monto_original": 50,
+      "moneda": "USD",
+      "monto_usd": 50,
+      "fecha": "2026-01-19",
+      "status": "RECHAZADO",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto tiene 153 días. Excede el límite máximo de 60 días."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_023",
+      "empleado": "David Paz",
+      "cost_center": "finance",
+      "categoria": "lodging",
+      "monto_original": 50,
+      "moneda": "USD",
+      "monto_usd": 50,
+      "fecha": "2026-01-03",
+      "status": "RECHAZADO",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto tiene 169 días. Excede el límite máximo de 60 días."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_024",
+      "empleado": "Ana Reyes",
+      "cost_center": "core_engineering",
+      "categoria": "lodging",
+      "monto_original": 50,
+      "moneda": "USD",
+      "monto_usd": 50,
+      "fecha": "2026-06-16",
+      "status": "APROBADO",
+      "alertas": [],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_025",
+      "empleado": "Bruno Soto",
+      "cost_center": "sales_team",
+      "categoria": "food",
+      "monto_original": 120,
+      "moneda": "USD",
+      "monto_usd": 120,
+      "fecha": "2026-03-16",
+      "status": "RECHAZADO",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto tiene 97 días. Excede el límite máximo de 60 días."
+        },
+        {
+          "codigo": "LIMITE_CATEGORIA",
+          "mensaje": "Monto 120 USD requiere revisión para categoría 'food'."
+        }
+      ],
+      "es_duplicado": true,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_026",
+      "empleado": "Bruno Soto",
+      "cost_center": "sales_team",
+      "categoria": "food",
+      "monto_original": 160,
+      "moneda": "USD",
+      "monto_usd": 160,
+      "fecha": "2026-03-16",
+      "status": "RECHAZADO",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto tiene 97 días. Excede el límite máximo de 60 días."
+        },
+        {
+          "codigo": "LIMITE_CATEGORIA",
+          "mensaje": "Monto 160 USD excede límite aprobado para categoría 'food'."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_027",
+      "empleado": "Bruno Soto",
+      "cost_center": "sales_team",
+      "categoria": "food",
+      "monto_original": 80,
+      "moneda": "USD",
+      "monto_usd": 80,
+      "fecha": "2026-01-29",
+      "status": "RECHAZADO",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto tiene 143 días. Excede el límite máximo de 60 días."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_028",
+      "empleado": "Bruno Soto",
+      "cost_center": "sales_team",
+      "categoria": "food",
+      "monto_original": 120,
+      "moneda": "USD",
+      "monto_usd": 120,
+      "fecha": "2026-01-29",
+      "status": "RECHAZADO",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto tiene 143 días. Excede el límite máximo de 60 días."
+        },
+        {
+          "codigo": "LIMITE_CATEGORIA",
+          "mensaje": "Monto 120 USD requiere revisión para categoría 'food'."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_029",
+      "empleado": "Ana Reyes",
+      "cost_center": "core_engineering",
+      "categoria": "food",
+      "monto_original": 120,
+      "moneda": "USD",
+      "monto_usd": 120,
+      "fecha": "2026-03-16",
+      "status": "RECHAZADO",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto tiene 97 días. Excede el límite máximo de 60 días."
+        },
+        {
+          "codigo": "LIMITE_CATEGORIA",
+          "mensaje": "Monto 120 USD requiere revisión para categoría 'food'."
+        },
+        {
+          "codigo": "POLITICA_CENTRO_COSTO",
+          "mensaje": "El C.C. 'core_engineering' no puede reportar 'food'."
+        }
+      ],
+      "es_duplicado": true,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_030",
+      "empleado": "Carla Mora",
+      "cost_center": "marketing",
+      "categoria": "transport",
+      "monto_original": 500,
+      "moneda": "MXN",
+      "monto_usd": 28.88,
+      "fecha": "2026-04-20",
+      "status": "RECHAZADO",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto tiene 62 días. Excede el límite máximo de 60 días."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_031",
+      "empleado": "David Paz",
+      "cost_center": "finance",
+      "categoria": "lodging",
+      "monto_original": 180,
+      "moneda": "USD",
+      "monto_usd": 180,
+      "fecha": "2026-06-14",
+      "status": "APROBADO",
+      "alertas": [],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_032",
+      "empleado": "Eva Luna",
+      "cost_center": "sales_team",
+      "categoria": "transport",
+      "monto_original": 75,
+      "moneda": "USD",
+      "monto_usd": 75,
+      "fecha": "2026-06-09",
+      "status": "APROBADO",
+      "alertas": [],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_033",
+      "empleado": "Carla Mora",
+      "cost_center": "marketing",
+      "categoria": "software",
+      "monto_original": 200,
+      "moneda": "USD",
+      "monto_usd": 200,
+      "fecha": "2026-03-07",
+      "status": "RECHAZADO",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto tiene 106 días. Excede el límite máximo de 60 días."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_034",
+      "empleado": "David Paz",
+      "cost_center": "finance",
+      "categoria": "transport",
+      "monto_original": 85,
+      "moneda": "USD",
+      "monto_usd": 85,
+      "fecha": "2026-05-10",
+      "status": "PENDIENTE",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto excede los 30 días. Requiere revisión."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_035",
+      "empleado": "Ana Reyes",
+      "cost_center": "core_engineering",
+      "categoria": "software",
+      "monto_original": 120,
+      "moneda": "USD",
+      "monto_usd": 120,
+      "fecha": "2026-04-25",
+      "status": "PENDIENTE",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto excede los 30 días. Requiere revisión."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_036",
+      "empleado": "Bruno Soto",
+      "cost_center": "sales_team",
+      "categoria": "transport",
+      "monto_original": 70,
+      "moneda": "USD",
+      "monto_usd": 70,
+      "fecha": "2026-06-04",
+      "status": "APROBADO",
+      "alertas": [],
+      "es_duplicado": true,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_037",
+      "empleado": "Eva Luna",
+      "cost_center": "sales_team",
+      "categoria": "other",
+      "monto_original": 150,
+      "moneda": "USD",
+      "monto_usd": 150,
+      "fecha": "2026-03-16",
+      "status": "RECHAZADO",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto tiene 97 días. Excede el límite máximo de 60 días."
+        }
+      ],
+      "es_duplicado": true,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_038",
+      "empleado": "Carla Mora",
+      "cost_center": "marketing",
+      "categoria": "lodging",
+      "monto_original": 130,
+      "moneda": "EUR",
+      "monto_usd": 152.4,
+      "fecha": "2026-04-25",
+      "status": "PENDIENTE",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto excede los 30 días. Requiere revisión."
+        }
+      ],
+      "es_duplicado": true,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_039",
+      "empleado": "David Paz",
+      "cost_center": "finance",
+      "categoria": "other",
+      "monto_original": 150,
+      "moneda": "USD",
+      "monto_usd": 150,
+      "fecha": "2026-03-16",
+      "status": "RECHAZADO",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto tiene 97 días. Excede el límite máximo de 60 días."
+        }
+      ],
+      "es_duplicado": true,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_040",
+      "empleado": "Ana Reyes",
+      "cost_center": "core_engineering",
+      "categoria": "transport",
+      "monto_original": 90,
+      "moneda": "USD",
+      "monto_usd": 90,
+      "fecha": "2026-05-05",
+      "status": "PENDIENTE",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto excede los 30 días. Requiere revisión."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_041",
+      "empleado": "Eva Luna",
+      "cost_center": "sales_team",
+      "categoria": "transport",
+      "monto_original": 70,
+      "moneda": "USD",
+      "monto_usd": 70,
+      "fecha": "2026-06-04",
+      "status": "APROBADO",
+      "alertas": [],
+      "es_duplicado": true,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_042",
+      "empleado": "Bruno Soto",
+      "cost_center": "sales_team",
+      "categoria": "food",
+      "monto_original": 90,
+      "moneda": "USD",
+      "monto_usd": 90,
+      "fecha": "2026-06-09",
+      "status": "APROBADO",
+      "alertas": [],
+      "es_duplicado": true,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_043",
+      "empleado": "Bruno Soto",
+      "cost_center": "sales_team",
+      "categoria": "food",
+      "monto_original": 90,
+      "moneda": "USD",
+      "monto_usd": 90,
+      "fecha": "2026-06-09",
+      "status": "APROBADO",
+      "alertas": [],
+      "es_duplicado": true,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_044",
+      "empleado": "Bruno Soto",
+      "cost_center": "sales_team",
+      "categoria": "food",
+      "monto_original": 90,
+      "moneda": "USD",
+      "monto_usd": 90,
+      "fecha": "2026-06-09",
+      "status": "APROBADO",
+      "alertas": [],
+      "es_duplicado": true,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_045",
+      "empleado": "Bruno Soto",
+      "cost_center": "sales_team",
+      "categoria": "food",
+      "monto_original": 100,
+      "moneda": "USD",
+      "monto_usd": 100,
+      "fecha": "2026-06-04",
+      "status": "APROBADO",
+      "alertas": [],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_046",
+      "empleado": "David Paz",
+      "cost_center": "finance",
+      "categoria": "other",
+      "monto_original": 150,
+      "moneda": "USD",
+      "monto_usd": 150,
+      "fecha": "2026-05-15",
+      "status": "PENDIENTE",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto excede los 30 días. Requiere revisión."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_047",
+      "empleado": "David Paz",
+      "cost_center": "finance",
+      "categoria": "other",
+      "monto_original": 150,
+      "moneda": "USD",
+      "monto_usd": 150,
+      "fecha": "2026-03-16",
+      "status": "RECHAZADO",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto tiene 97 días. Excede el límite máximo de 60 días."
+        }
+      ],
+      "es_duplicado": true,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_048",
+      "empleado": "David Paz",
+      "cost_center": "finance",
+      "categoria": "other",
+      "monto_original": 150,
+      "moneda": "USD",
+      "monto_usd": 150,
+      "fecha": "2026-01-29",
+      "status": "RECHAZADO",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto tiene 143 días. Excede el límite máximo de 60 días."
+        }
+      ],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_049",
+      "empleado": "Ana Reyes",
+      "cost_center": "core_engineering",
+      "categoria": "software",
+      "monto_original": 300,
+      "moneda": "USD",
+      "monto_usd": 300,
+      "fecha": "2026-06-14",
+      "status": "APROBADO",
+      "alertas": [],
+      "es_duplicado": false,
+      "es_negativo": false
+    },
+    {
+      "gasto_id": "g_050",
+      "empleado": "Carla Mora",
+      "cost_center": "marketing",
+      "categoria": "lodging",
+      "monto_original": 130,
+      "moneda": "EUR",
+      "monto_usd": 152.4,
+      "fecha": "2026-04-25",
+      "status": "PENDIENTE",
+      "alertas": [
+        {
+          "codigo": "LIMITE_ANTIGUEDAD",
+          "mensaje": "Gasto excede los 30 días. Requiere revisión."
+        }
+      ],
+      "es_duplicado": true,
+      "es_negativo": false
+    }
+  ],
+  "anomalies": {
+    "duplicates": [
+      {
+        "gastos": [
+          "g_001",
+          "g_011"
+        ],
+        "monto": 50,
+        "moneda": "USD",
+        "fecha": "2026-06-04"
+      },
+      {
+        "gastos": [
+          "g_002",
+          "g_012"
+        ],
+        "monto": 120,
+        "moneda": "USD",
+        "fecha": "2026-05-30"
+      },
+      {
+        "gastos": [
+          "g_025",
+          "g_029"
+        ],
+        "monto": 120,
+        "moneda": "USD",
+        "fecha": "2026-03-16"
+      },
+      {
+        "gastos": [
+          "g_036",
+          "g_041"
+        ],
+        "monto": 70,
+        "moneda": "USD",
+        "fecha": "2026-06-04"
+      },
+      {
+        "gastos": [
+          "g_037",
+          "g_039",
+          "g_047"
+        ],
+        "monto": 150,
+        "moneda": "USD",
+        "fecha": "2026-03-16"
+      },
+      {
+        "gastos": [
+          "g_038",
+          "g_050"
+        ],
+        "monto": 130,
+        "moneda": "EUR",
+        "fecha": "2026-04-25"
+      },
+      {
+        "gastos": [
+          "g_042",
+          "g_043",
+          "g_044"
+        ],
+        "monto": 90,
+        "moneda": "USD",
+        "fecha": "2026-06-09"
+      }
+    ],
+    "negatives": []
+  },
+  "apiOptimization": {
+    "totalCalls": 25,
+    "withoutOptimization": 50,
+    "savingsPercent": 50
+  }
+}
