@@ -13,7 +13,7 @@ npm run build       # nest build (compiles to dist/)
 npm run test        # Jest unit tests (49 tests, all should pass)
 npm run test:cov    # Jest with coverage
 npm run start:dev   # Hot-reload dev server on port 3000
-npm run analyze     # Part 3 batch analyzer (generates ANALISIS.md + results.json)
+npm run analyze     # Part 3 batch analyzer (generates docs/ANALISIS.md + docs/results.json)
 ```
 
 **Verification order:** `npm run lint && npm run build && npm run test`
@@ -43,7 +43,11 @@ src/
 scripts/
 ├── analyze.ts               # Part 3 batch analyzer (main entry)
 ├── types.ts                 # Types for CSV rows and analysis results
-├── policy.ts                # Default policy for batch analysis
+└── policy.ts                # Default policy for batch analysis
+docs/
+├── DESAFIO.md               # Original challenge requirements (Spanish)
+├── STACK.md                 # Stack decisions and architecture (Spanish)
+├── ANALISIS.md              # Generated: batch analysis report
 └── results.json             # Generated: detailed analysis output
 ```
 
@@ -98,8 +102,8 @@ chore: update TypeScript to 4.9.5 for class-validator compatibility
 
 ## Files to Read First
 
-1. `DESAFIO.md` — Original challenge requirements (Spanish)
-2. `STACK.md` — Stack decisions and architecture (Spanish)
+1. `docs/DESAFIO.md` — Original challenge requirements (Spanish)
+2. `docs/STACK.md` — Stack decisions and architecture (Spanish)
 3. `src/modules/politicas/engine/validation-engine.ts` — Core business logic
 4. `src/modules/politicas/engine/__tests__/validation-engine.spec.ts` — Test patterns
 5. `gastos_historicos.csv` — Sample data for Part 3 (multi-currency: USD, CLP, MXN, EUR)

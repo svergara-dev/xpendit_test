@@ -247,14 +247,16 @@ async function main() {
     },
   };
 
-  const jsonPath = path.resolve(__dirname, 'results.json');
+  const docsDir = path.resolve(__dirname, '..', 'docs');
+
+  const jsonPath = path.join(docsDir, 'results.json');
   fs.writeFileSync(jsonPath, JSON.stringify(output, null, 2));
-  console.log(`Results saved to scripts/results.json`);
+  console.log(`Results saved to docs/results.json`);
 
   const mdContent = generateAnalysisMd(output);
-  const mdPath = path.resolve(__dirname, '..', 'ANALISIS.md');
+  const mdPath = path.join(docsDir, 'ANALISIS.md');
   fs.writeFileSync(mdPath, mdContent);
-  console.log('Report saved to ANALISIS.md\n');
+  console.log('Report saved to docs/ANALISIS.md\n');
 
   console.log('=== Summary ===');
   console.log(`Total: ${output.summary.total}`);
