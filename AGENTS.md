@@ -10,7 +10,7 @@ NestJS + TypeScript app: **Xpendit Motor de Reglas** (expense rule engine). Thre
 npm run lint        # ESLint + auto-fix
 npm run format      # Prettier
 npm run build       # nest build (compiles to dist/)
-npm run test        # Jest unit tests (37 tests, all should pass)
+npm run test        # Jest unit tests (49 tests, all should pass)
 npm run test:cov    # Jest with coverage
 npm run start:dev   # Hot-reload dev server on port 3000
 npm run analyze     # Part 3 batch script (currently stub)
@@ -36,7 +36,10 @@ src/
     │   │   ├── validation-engine.service.ts   # NestJS injectable wrapper
     │   │   └── rules/                         # Individual rule functions
     │   └── dto/create-politica.dto.ts
-    └── exchange-rate/               # Empty shell (Part 2 not started)
+    ├── exchange-rate/               # ExchangeRateService with in-memory cache
+    │   ├── exchange-rate.service.ts
+    │   ├── exchange-rate.module.ts
+    │   └── dto/
 ```
 
 ## Key Conventions
@@ -79,7 +82,8 @@ chore: update TypeScript to 4.9.5 for class-validator compatibility
 - `dist/` is in .gitignore but may exist from previous builds.
 - `test/` directory doesn't exist — `npm run test:e2e` will fail (no e2e tests yet).
 - `scripts/analyze.ts` is a stub (`export {}`) — Part 3 not implemented.
-- `ExchangeRateModule` imports `HttpModule` but has no service yet.
+- `ExchangeRateModule` has service with in-memory cache (Map by date).
+- `ValidationEngineService.validar()` is now async (converts to USD before validation).
 - Port 3000 is hardcoded in `main.ts` (not configurable via env).
 - Empty `src/modules/politicas/interfaces/` directory is a leftover — ignore it.
 - `.env.example` contains `OPEN_EXCHANGE_RATES_APP_ID` — copy to `.env` for Part 2+.
@@ -97,7 +101,11 @@ chore: update TypeScript to 4.9.5 for class-validator compatibility
 | Part | Status |
 |---|---|
 | Part 1: Rules Engine | ✅ Complete (3 rules, 37 tests) |
-| Part 2: Exchange Rate API | ❌ Not started |
+| Part 2: Exchange Rate API | ✅ Complete (12 tests, in-memory cache) |
 | Part 3: Batch Analyzer | ❌ Not started |
 | README.md | ❌ Not created (required by DESAFIO.md) |
 | ANALISIS.md | ❌ Not created (required by Part 3) |
+
+## Memory
+
+See `MEMORY.md` for corrections and feedback log.
