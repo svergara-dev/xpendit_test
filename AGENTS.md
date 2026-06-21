@@ -84,6 +84,8 @@ chore: update TypeScript to 4.9.5 for class-validator compatibility
 - `test/` directory doesn't exist — `npm run test:e2e` will fail (no e2e tests yet).
 - `scripts/analyze.ts` is a stub (`export {}`) — Part 3 not implemented.
 - `ExchangeRateModule` has service with in-memory cache (Map by date).
+- Plugin `verify-before-commit` blocks git commit if lint/build/test fail.
+- Skill `verify-before-commit` provides verification workflow to agents.
 - `ValidationEngineService.validar()` is now async (converts to USD before validation).
 - Port 3000 is hardcoded in `main.ts` (not configurable via env).
 - Empty `src/modules/politicas/interfaces/` directory is a leftover — ignore it.
