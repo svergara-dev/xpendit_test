@@ -59,6 +59,7 @@ docs/
 - **Path alias `@/*`** defined in tsconfig but unused — all imports use relative paths.
 - **DTOs enforce API validation**; batch analyzer (Part 3) handles raw CSV data separately.
 - **Priority logic:** RECHAZADO > PENDIENTE > APROBADO > default PENDIENTE.
+- **Categories without defined limits** are auto-approved (APROBADO). This is a design decision to validate with product/finance team in production.
 
 ## Commit Conventions
 
