@@ -95,6 +95,47 @@ scripts/
 - **Testing:** Jest
 - **API:** Open Exchange Rates (tasas de cambio)
 
+## Challenge Structure
+
+### Part 1: Rules Engine (Logic)
+
+Core validation logic without external dependencies.
+
+| File | Description |
+|------|-------------|
+| `src/shared/enums/status.enum.ts` | ExpenseStatus enum (APROBADO, PENDIENTE, RECHAZADO) |
+| `src/shared/interfaces/*.ts` | Interfaces: Gasto, Empleado, Politica, ValidationResult, Alerta |
+| `src/modules/politicas/engine/validation-engine.ts` | Pure function `validarGasto()` |
+| `src/modules/politicas/engine/validation-engine.service.ts` | NestJS injectable wrapper |
+| `src/modules/politicas/engine/rules/antiguedad.rule.ts` | Age rule (0-30 APROBADO, 31-60 PENDIENTE, >60 RECHAZADO) |
+| `src/modules/politicas/engine/rules/limite-categoria.rule.ts` | Category limit rule |
+| `src/modules/politicas/engine/rules/regla-centro-costo.rule.ts` | Cost center cross rule |
+| `src/modules/politicas/engine/__tests__/validation-engine.spec.ts` | Engine tests (61 tests) |
+| `src/modules/politicas/engine/rules/__tests__/*.spec.ts` | Individual rule tests |
+
+### Part 2: Exchange Rate API
+
+External API integration with caching.
+
+| File | Description |
+|------|-------------|
+| `src/modules/exchange-rate/exchange-rate.service.ts` | API client with in-memory cache |
+| `src/modules/exchange-rate/exchange-rate.module.ts` | NestJS module |
+| `src/modules/exchange-rate/dto/exchange-rate-response.dto.ts` | Response DTO |
+| `src/modules/exchange-rate/__tests__/exchange-rate.service.spec.ts` | Tests (12 tests) |
+
+### Part 3: Batch Analyzer
+
+CSV processing and anomaly detection.
+
+| File | Description |
+|------|-------------|
+| `scripts/analyze.ts` | Main analyzer script |
+| `scripts/types.ts` | TypeScript types for analysis |
+| `scripts/policy.ts` | Default policy configuration |
+| `gastos_historicos.csv` | Input data (multi-currency) |
+| `docs/ANALISIS.md` | Generated analysis report |
+
 ## Licencia
 
 MIT
