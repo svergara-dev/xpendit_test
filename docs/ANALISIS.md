@@ -40,6 +40,7 @@
 | LIMITE_ANTIGUEDAD     | 21       | 84%        |
 | LIMITE_CATEGORIA      | 8        | 32%        |
 | POLITICA_CENTRO_COSTO | 4        | 16%        |
+| OTROS                 | 0        | 0%         |
 
 ## Anomalías Detectadas
 

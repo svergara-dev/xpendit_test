@@ -252,6 +252,15 @@ function generateRuleBreakdown(results: GastoResult[]): string[] {
   const rechAntiguedad = countAlerts(results, 'RECHAZADO', ALERT_CODES.ANTIGUEDAD);
   const rechCategoria = countAlerts(results, 'RECHAZADO', ALERT_CODES.CATEGORIA);
   const rechCentroCosto = countAlerts(results, 'RECHAZADO', ALERT_CODES.CENTRO_COSTO);
+  const rechOtros = rechazados.filter(
+    (r) =>
+      !r.alertas.some(
+        (a) =>
+          a.codigo === ALERT_CODES.ANTIGUEDAD ||
+          a.codigo === ALERT_CODES.CATEGORIA ||
+          a.codigo === ALERT_CODES.CENTRO_COSTO,
+      ),
+  ).length;
   lines.push(
     `| LIMITE_ANTIGUEDAD | ${rechAntiguedad} | ${pctOf(rechAntiguedad, rechazados.length)} |`,
   );
@@ -260,6 +269,9 @@ function generateRuleBreakdown(results: GastoResult[]): string[] {
   );
   lines.push(
     `| POLITICA_CENTRO_COSTO | ${rechCentroCosto} | ${pctOf(rechCentroCosto, rechazados.length)} |`,
+  );
+  lines.push(
+    `| OTROS | ${rechOtros} | ${pctOf(rechOtros, rechazados.length)} |`,
   );
 
   return lines;

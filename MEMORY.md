@@ -29,5 +29,7 @@ Registro de correcciones y feedback del usuario durante el desarrollo.
 | 2025-06-22 | Part 1 | Fixed bug: negative amounts were incorrectly APPROVED. Added validation in validation-engine.ts to RECHAZADO negative amounts before rule evaluation. Tests: 61→63 | Yes |
 | 2025-06-22 | Part 3 | Added percentage column and rule breakdown tables (PENDIENTE/RECHAZADO) to ANALISIS.md | Yes |
 | 2025-06-22 | Part 3 | Refactored scripts/analyze.ts: extracted 11 helper functions, reduced generateAnalysisMd from 125 to 20 lines, added ALERT_CODES constant | Yes |
+| 2025-06-22 | Part 1 | Fixed bug: future dates were incorrectly APPROVED. Added validation in validation-engine.ts to RECHAZADO expenses with future dates. Tests: 63→65 | Yes |
+| 2025-06-22 | Part 3 | Added OTROS row to RECHAZADO breakdown table in ANALISIS.md for edge case alerts (MONTO_NEGATIVO, FECHA_FUTURA) | Yes |
 
 ---

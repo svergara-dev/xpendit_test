@@ -209,6 +209,32 @@ describe('ValidationEngine', () => {
       expect(resultado.alertas.length).toBeGreaterThan(0);
       expect(resultado.alertas[0].codigo).toBe('MONTO_NEGATIVO');
     });
+
+    it('should return REJECTED for future date', () => {
+      const fecha = new Date();
+      fecha.setDate(fecha.getDate() + 5);
+      const gasto = crearGasto({
+        monto: 50,
+        fecha: fecha.toISOString().split('T')[0],
+      });
+      const resultado = validarGasto(gasto, empleadoBase, politicaBase);
+      expect(resultado.status).toBe(ExpenseStatus.RECHAZADO);
+      expect(resultado.alertas.length).toBeGreaterThan(0);
+      expect(resultado.alertas[0].codigo).toBe('FECHA_FUTURA');
+    });
+
+    it('should return REJECTED for far future date', () => {
+      const fecha = new Date();
+      fecha.setFullYear(fecha.getFullYear() + 1);
+      const gasto = crearGasto({
+        monto: 50,
+        fecha: fecha.toISOString().split('T')[0],
+      });
+      const resultado = validarGasto(gasto, empleadoBase, politicaBase);
+      expect(resultado.status).toBe(ExpenseStatus.RECHAZADO);
+      expect(resultado.alertas.length).toBeGreaterThan(0);
+      expect(resultado.alertas[0].codigo).toBe('FECHA_FUTURA');
+    });
   });
 
   describe('Priority', () => {

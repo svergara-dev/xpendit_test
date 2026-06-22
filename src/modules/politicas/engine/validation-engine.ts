@@ -27,6 +27,19 @@ export function validarGasto(
     };
   }
 
+  if (new Date(gasto.fecha) > new Date()) {
+    return {
+      gasto_id: gasto.id,
+      status: ExpenseStatus.RECHAZADO,
+      alertas: [
+        {
+          codigo: 'FECHA_FUTURA',
+          mensaje: `El gasto tiene una fecha futura (${gasto.fecha}). No se permiten gastos con fecha posterior a hoy.`,
+        },
+      ],
+    };
+  }
+
   const resultados: RuleResult[] = [];
 
   resultados.push(evaluarAntiguedad(gasto, politica));
