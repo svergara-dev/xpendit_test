@@ -34,7 +34,7 @@ src/
     │   ├── engine/
     │   │   ├── validation-engine.ts           # Pure function validarGasto()
     │   │   ├── validation-engine.service.ts   # NestJS injectable wrapper
-    │   │   └── rules/                         # Individual rule functions
+    │   │   └── rules/                         # Individual rule functions (O(1) optimized)
     │   └── dto/create-politica.dto.ts
     ├── exchange-rate/               # ExchangeRateService with in-memory cache
     │   ├── exchange-rate.service.ts
@@ -103,6 +103,7 @@ chore: update TypeScript to 4.9.5 for class-validator compatibility
 - Empty `src/modules/politicas/interfaces/` directory is a leftover — ignore it.
 - `.env.example` contains `OPEN_EXCHANGE_RATES_APP_ID` — copy to `.env` for Part 2+.
 - `scripts/analyze.ts` loads `.env` automatically via dotenv (no manual env setup needed).
+- `evaluarReglaCentroCosto` uses Map cache for O(1) rule lookup instead of O(R) Array.find().
 
 ## Files to Read First
 

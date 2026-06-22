@@ -25,5 +25,6 @@ Registro de correcciones y feedback del usuario durante el desarrollo.
 | 2025-06-21 | Security | API key was hardcoded in commit ea6f715, fixed in 10892c4 to use .env. Decision: keep history as-is (Option 1). Key should be regenerated in Open Exchange Rates. | Yes |
 | 2025-06-21 | Part 1 | Documented categories without limits auto-approve behavior in README as business rule to validate with product team | Yes |
 | 2025-06-21 | Part 3 | Made policy dynamic in ANALISIS.md - added PolicyConfig interface, policy field in AnalysisOutput, and dynamic metadata generation | Yes |
+| 2025-06-21 | Part 1 | Optimized Big O: evaluarReglaCentroCosto O(R)→O(1) with Map cache, state counting O(3N)→O(N) with single loop | Yes |
 
 ---
