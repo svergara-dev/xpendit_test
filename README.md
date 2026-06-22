@@ -129,7 +129,7 @@ Core validation logic without external dependencies.
 | `src/modules/politicas/engine/rules/antiguedad.rule.ts` | Age rule (0-30 APROBADO, 31-60 PENDIENTE, >60 RECHAZADO) |
 | `src/modules/politicas/engine/rules/limite-categoria.rule.ts` | Category limit rule |
 | `src/modules/politicas/engine/rules/regla-centro-costo.rule.ts` | Cost center cross rule |
-| `src/modules/politicas/engine/__tests__/validation-engine.spec.ts` | Engine tests (61 tests) |
+| `src/modules/politicas/engine/__tests__/validation-engine.spec.ts` | Engine tests (63 tests) |
 | `src/modules/politicas/engine/rules/__tests__/*.spec.ts` | Individual rule tests |
 
 ### Part 2: Exchange Rate API

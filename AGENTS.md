@@ -118,7 +118,7 @@ chore: update TypeScript to 4.9.5 for class-validator compatibility
 
 | Part | Status |
 |---|---|
-| Part 1: Rules Engine | ✅ Complete (3 rules, 61 tests) |
+| Part 1: Rules Engine | ✅ Complete (3 rules, 63 tests) |
 | Part 2: Exchange Rate API | ✅ Complete (12 tests, in-memory cache) |
 | Part 3: Batch Analyzer | ✅ Complete (anomaly detection, optimized API) |
 | README.md | ✅ Complete (setup, config, usage, architecture) |
