@@ -41,7 +41,7 @@ src/
     │   ├── exchange-rate.module.ts
     │   └── dto/
 scripts/
-├── analyze.ts               # Part 3 batch analyzer (main entry)
+├── analyze.ts               # Part 3 batch analyzer (generates ANALISIS.md with percentage breakdown and rule analysis)
 ├── types.ts                 # Types for CSV rows, analysis results, and policy config
 └── policy.ts                # Default policy for batch analysis
 docs/
@@ -92,9 +92,10 @@ chore: update TypeScript to 4.9.5 for class-validator compatibility
 
 - `dist/` is in .gitignore but may exist from previous builds.
 - `test/` directory doesn't exist — `npm run test:e2e` will fail (no e2e tests yet).
-- `scripts/analyze.ts` generates ANALISIS.md (with policy metadata) and results.json when run.
+- `scripts/analyze.ts` generates ANALISIS.md (with policy metadata, percentage breakdown, and rule analysis) and results.json when run.
 - `scripts/analyze.ts` validates API key using `/usage.json` (free endpoint, no quota consumption).
 - `scripts/analyze.ts` loads `.env` automatically via dotenv.
+- `scripts/analyze.ts` refactored with extracted helper functions for readability (11 functions, reduced main from 107 to 35 lines).
 - `ExchangeRateModule` has service with in-memory cache (Map by date).
 - Plugin `verify-before-commit` blocks git commit if lint/build/test fail.
 - Skill `verify-before-commit` provides verification workflow to agents.

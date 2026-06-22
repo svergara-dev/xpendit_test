@@ -27,5 +27,7 @@ Registro de correcciones y feedback del usuario durante el desarrollo.
 | 2025-06-21 | Part 3 | Made policy dynamic in ANALISIS.md - added PolicyConfig interface, policy field in AnalysisOutput, and dynamic metadata generation | Yes |
 | 2025-06-21 | Part 1 | Optimized Big O: evaluarReglaCentroCosto O(R)→O(1) with Map cache, state counting O(3N)→O(N) with single loop | Yes |
 | 2025-06-22 | Part 1 | Fixed bug: negative amounts were incorrectly APPROVED. Added validation in validation-engine.ts to RECHAZADO negative amounts before rule evaluation. Tests: 61→63 | Yes |
+| 2025-06-22 | Part 3 | Added percentage column and rule breakdown tables (PENDIENTE/RECHAZADO) to ANALISIS.md | Yes |
+| 2025-06-22 | Part 3 | Refactored scripts/analyze.ts: extracted 11 helper functions, reduced generateAnalysisMd from 125 to 20 lines, added ALERT_CODES constant | Yes |
 
 ---
