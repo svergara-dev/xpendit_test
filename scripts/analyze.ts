@@ -218,7 +218,7 @@ async function main() {
   }
   console.log('API key válida\n');
 
-  const rows = parseCsv('gastos_historicos.csv');
+  const rows = parseCsv('data/gastos_historicos.csv');
   console.log(`Loaded ${rows.length} expenses from CSV\n`);
 
   const ratesByDate = await fetchRatesGroupedByDate(rows);

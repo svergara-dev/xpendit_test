@@ -109,7 +109,7 @@ chore: update TypeScript to 4.9.5 for class-validator compatibility
 2. `docs/STACK.md` — Stack decisions and architecture (Spanish)
 3. `src/modules/politicas/engine/validation-engine.ts` — Core business logic
 4. `src/modules/politicas/engine/__tests__/validation-engine.spec.ts` — Test patterns
-5. `gastos_historicos.csv` — Sample data for Part 3 (multi-currency: USD, CLP, MXN, EUR)
+5. `data/gastos_historicos.csv` — Sample data for Part 3 (multi-currency: USD, CLP, MXN, EUR)
 6. `scripts/analyze.ts` — Batch analyzer entry point
 
 ## Completion Status

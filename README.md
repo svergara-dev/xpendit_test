@@ -53,7 +53,7 @@ npm run test:cov
 npm run analyze
 ```
 
-Esto procesará el archivo `gastos_historicos.csv` y generará:
+Esto procesará el archivo `data/gastos_historicos.csv` y generará:
 - `ANALISIS.md` — Reporte de hallazgos
 - `scripts/results.json` — Resultados detallados
 
@@ -133,7 +133,7 @@ CSV processing and anomaly detection.
 | `scripts/analyze.ts` | Main analyzer script |
 | `scripts/types.ts` | TypeScript types for analysis |
 | `scripts/policy.ts` | Default policy configuration |
-| `gastos_historicos.csv` | Input data (multi-currency) |
+| `data/gastos_historicos.csv` | Input data (multi-currency) |
 | `docs/ANALISIS.md` | Generated analysis report |
 
 ## Licencia
