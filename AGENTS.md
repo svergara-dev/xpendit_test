@@ -54,7 +54,7 @@ docs/
 ## Key Conventions
 
 - **Rules are pure functions**, not NestJS services. Only `ValidationEngineService` is injectable.
-- **Test strings in Spanish** (e.g., `'debería devolver APROBADO si...'`).
+- **Test strings in English** (e.g., `'should return APPROVED if...'`).
 - **TypeScript 4.9.5** pinned — do NOT upgrade to 5.x (breaks class-validator decorators).
 - **Path alias `@/*`** defined in tsconfig but unused — all imports use relative paths.
 - **DTOs enforce API validation**; batch analyzer (Part 3) handles raw CSV data separately.
