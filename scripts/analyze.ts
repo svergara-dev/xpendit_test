@@ -167,12 +167,13 @@ function generatePolicySection(policy: AnalysisOutput['policy']): string[] {
   );
 
   const categoryLimits = Object.entries(policy.limites_por_categoria)
-    .map(
-      ([cat, limit]) =>
-        `${cat}: ≤${limit.aprobado_hasta} APROBADO, ` +
-        `${limit.aprobado_hasta}-${limit.pendiente_hasta} PENDIENTE, ` +
-        `>${limit.pendiente_hasta} RECHAZADO`,
-    )
+    .map(([cat, limit]) => {
+      const hasPending = limit.aprobado_hasta < limit.pendiente_hasta;
+      const pendingRange = hasPending
+        ? `, ${limit.aprobado_hasta + 1}-${limit.pendiente_hasta} PENDIENTE`
+        : '';
+      return `${cat}: ≤${limit.aprobado_hasta} APROBADO${pendingRange}, >${limit.pendiente_hasta} RECHAZADO`;
+    })
     .join('; ');
   lines.push(`| Límites por categoría | ${categoryLimits} |`);
 

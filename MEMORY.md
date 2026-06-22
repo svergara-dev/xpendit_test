@@ -32,5 +32,6 @@ Registro de correcciones y feedback del usuario durante el desarrollo.
 | 2025-06-22 | Part 1 | Fixed bug: future dates were incorrectly APPROVED. Added validation in validation-engine.ts to RECHAZADO expenses with future dates. Tests: 63→65 | Yes |
 | 2025-06-22 | Part 3 | Added OTROS row to RECHAZADO breakdown table in ANALISIS.md for edge case alerts (MONTO_NEGATIVO, FECHA_FUTURA) | Yes |
 | 2025-06-22 | Part 3 | Added Fecha column to "Detalle por Gasto" table in ANALISIS.md for better traceability | Yes |
+| 2025-06-22 | Part 3 | Fixed category limits format in ANALISIS.md: now shows correct ranges (101-150 instead of 100-150) and omits empty PENDIENTE ranges (transport) | Yes |
 
 ---
