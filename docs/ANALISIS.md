@@ -44,7 +44,7 @@
 
 ## Anomalías Detectadas
 
-### Duplicados Exactos
+### Duplicados Exactos (7)
 
 - **g_001, g_011**: 50 USD, 2026-06-04
 - **g_002, g_012**: 120 USD, 2026-05-30
@@ -54,7 +54,7 @@
 - **g_038, g_050**: 130 EUR, 2026-04-25
 - **g_042, g_043, g_044**: 90 USD, 2026-06-09
 
-### Montos Negativos
+### Montos Negativos (0)
 
 - Ninguno detectado
 

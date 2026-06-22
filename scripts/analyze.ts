@@ -270,7 +270,7 @@ function generateRuleBreakdown(results: GastoResult[]): string[] {
 function generateAnomaliesSection(anomalies: AnalysisOutput['anomalies']): string[] {
   const lines: string[] = [];
 
-  lines.push('### Duplicados Exactos');
+  lines.push(`### Duplicados Exactos (${anomalies.duplicates.length})`);
   lines.push('');
   if (anomalies.duplicates.length === 0) {
     lines.push('- Ninguno detectado');
@@ -281,7 +281,7 @@ function generateAnomaliesSection(anomalies: AnalysisOutput['anomalies']): strin
   }
   lines.push('');
 
-  lines.push('### Montos Negativos');
+  lines.push(`### Montos Negativos (${anomalies.negatives.length})`);
   lines.push('');
   if (anomalies.negatives.length === 0) {
     lines.push('- Ninguno detectado');

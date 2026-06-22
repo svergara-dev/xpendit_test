@@ -34,5 +34,6 @@ Registro de correcciones y feedback del usuario durante el desarrollo.
 | 2025-06-22 | Part 3 | Added Fecha column to "Detalle por Gasto" table in ANALISIS.md for better traceability | Yes |
 | 2025-06-22 | Part 3 | Fixed category limits format in ANALISIS.md: now shows correct ranges (101-150 instead of 100-150) and omits empty PENDIENTE ranges (transport) | Yes |
 | 2025-06-22 | Docs | Added README note explaining OTROS category in RECHAZADO breakdown (MONTO_NEGATIVO, FECHA_FUTURA edge cases) | Yes |
+| 2025-06-22 | Part 3 | Added anomaly counts to section headings in ANALISIS.md (e.g., "Duplicados Exactos (7)") | Yes |
 
 ---
