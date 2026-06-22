@@ -37,6 +37,24 @@ export interface DuplicateGroup {
   fecha: string;
 }
 
+export interface PolicyConfig {
+  moneda_base: string;
+  limite_antiguedad: {
+    pendiente_dias: number;
+    rechazado_dias: number;
+  };
+  limites_por_categoria: {
+    [categoria: string]: {
+      aprobado_hasta: number;
+      pendiente_hasta: number;
+    };
+  };
+  reglas_centro_costo: {
+    cost_center: string;
+    categoria_prohibida: string;
+  }[];
+}
+
 export interface AnalysisSummary {
   total: number;
   aprobados: number;
@@ -49,6 +67,7 @@ export interface AnalysisSummary {
 
 export interface AnalysisOutput {
   summary: AnalysisSummary;
+  policy: PolicyConfig;
   results: GastoResult[];
   anomalies: {
     duplicates: DuplicateGroup[];

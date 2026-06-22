@@ -8,6 +8,29 @@
     "negativos": 0,
     "monto_total_usd": 5388.89
   },
+  "policy": {
+    "moneda_base": "USD",
+    "limite_antiguedad": {
+      "pendiente_dias": 30,
+      "rechazado_dias": 60
+    },
+    "limites_por_categoria": {
+      "food": {
+        "aprobado_hasta": 100,
+        "pendiente_hasta": 150
+      },
+      "transport": {
+        "aprobado_hasta": 200,
+        "pendiente_hasta": 200
+      }
+    },
+    "reglas_centro_costo": [
+      {
+        "cost_center": "core_engineering",
+        "categoria_prohibida": "food"
+      }
+    ]
+  },
   "results": [
     {
       "gasto_id": "g_001",
@@ -330,7 +353,7 @@
       "alertas": [
         {
           "codigo": "LIMITE_ANTIGUEDAD",
-          "mensaje": "Gasto tiene 73 días. Excede el límite máximo de 60 días."
+          "mensaje": "Gasto tiene 74 días. Excede el límite máximo de 60 días."
         }
       ],
       "es_duplicado": false,
@@ -349,7 +372,7 @@
       "alertas": [
         {
           "codigo": "LIMITE_ANTIGUEDAD",
-          "mensaje": "Gasto tiene 83 días. Excede el límite máximo de 60 días."
+          "mensaje": "Gasto tiene 84 días. Excede el límite máximo de 60 días."
         }
       ],
       "es_duplicado": false,
@@ -368,7 +391,7 @@
       "alertas": [
         {
           "codigo": "LIMITE_ANTIGUEDAD",
-          "mensaje": "Gasto tiene 88 días. Excede el límite máximo de 60 días."
+          "mensaje": "Gasto tiene 89 días. Excede el límite máximo de 60 días."
         }
       ],
       "es_duplicado": false,
@@ -387,7 +410,7 @@
       "alertas": [
         {
           "codigo": "LIMITE_ANTIGUEDAD",
-          "mensaje": "Gasto tiene 116 días. Excede el límite máximo de 60 días."
+          "mensaje": "Gasto tiene 117 días. Excede el límite máximo de 60 días."
         }
       ],
       "es_duplicado": false,
@@ -406,7 +429,7 @@
       "alertas": [
         {
           "codigo": "LIMITE_ANTIGUEDAD",
-          "mensaje": "Gasto tiene 125 días. Excede el límite máximo de 60 días."
+          "mensaje": "Gasto tiene 126 días. Excede el límite máximo de 60 días."
         }
       ],
       "es_duplicado": false,
@@ -425,7 +448,7 @@
       "alertas": [
         {
           "codigo": "LIMITE_ANTIGUEDAD",
-          "mensaje": "Gasto tiene 133 días. Excede el límite máximo de 60 días."
+          "mensaje": "Gasto tiene 134 días. Excede el límite máximo de 60 días."
         }
       ],
       "es_duplicado": false,
@@ -444,7 +467,7 @@
       "alertas": [
         {
           "codigo": "LIMITE_ANTIGUEDAD",
-          "mensaje": "Gasto tiene 153 días. Excede el límite máximo de 60 días."
+          "mensaje": "Gasto tiene 154 días. Excede el límite máximo de 60 días."
         }
       ],
       "es_duplicado": false,
@@ -463,7 +486,7 @@
       "alertas": [
         {
           "codigo": "LIMITE_ANTIGUEDAD",
-          "mensaje": "Gasto tiene 169 días. Excede el límite máximo de 60 días."
+          "mensaje": "Gasto tiene 170 días. Excede el límite máximo de 60 días."
         }
       ],
       "es_duplicado": false,
@@ -496,7 +519,7 @@
       "alertas": [
         {
           "codigo": "LIMITE_ANTIGUEDAD",
-          "mensaje": "Gasto tiene 97 días. Excede el límite máximo de 60 días."
+          "mensaje": "Gasto tiene 98 días. Excede el límite máximo de 60 días."
         },
         {
           "codigo": "LIMITE_CATEGORIA",
@@ -519,7 +542,7 @@
       "alertas": [
         {
           "codigo": "LIMITE_ANTIGUEDAD",
-          "mensaje": "Gasto tiene 97 días. Excede el límite máximo de 60 días."
+          "mensaje": "Gasto tiene 98 días. Excede el límite máximo de 60 días."
         },
         {
           "codigo": "LIMITE_CATEGORIA",
@@ -542,7 +565,7 @@
       "alertas": [
         {
           "codigo": "LIMITE_ANTIGUEDAD",
-          "mensaje": "Gasto tiene 143 días. Excede el límite máximo de 60 días."
+          "mensaje": "Gasto tiene 144 días. Excede el límite máximo de 60 días."
         }
       ],
       "es_duplicado": false,
@@ -561,7 +584,7 @@
       "alertas": [
         {
           "codigo": "LIMITE_ANTIGUEDAD",
-          "mensaje": "Gasto tiene 143 días. Excede el límite máximo de 60 días."
+          "mensaje": "Gasto tiene 144 días. Excede el límite máximo de 60 días."
         },
         {
           "codigo": "LIMITE_CATEGORIA",
@@ -584,7 +607,7 @@
       "alertas": [
         {
           "codigo": "LIMITE_ANTIGUEDAD",
-          "mensaje": "Gasto tiene 97 días. Excede el límite máximo de 60 días."
+          "mensaje": "Gasto tiene 98 días. Excede el límite máximo de 60 días."
         },
         {
           "codigo": "LIMITE_CATEGORIA",
@@ -611,7 +634,7 @@
       "alertas": [
         {
           "codigo": "LIMITE_ANTIGUEDAD",
-          "mensaje": "Gasto tiene 62 días. Excede el límite máximo de 60 días."
+          "mensaje": "Gasto tiene 63 días. Excede el límite máximo de 60 días."
         }
       ],
       "es_duplicado": false,
@@ -658,7 +681,7 @@
       "alertas": [
         {
           "codigo": "LIMITE_ANTIGUEDAD",
-          "mensaje": "Gasto tiene 106 días. Excede el límite máximo de 60 días."
+          "mensaje": "Gasto tiene 107 días. Excede el límite máximo de 60 días."
         }
       ],
       "es_duplicado": false,
@@ -729,7 +752,7 @@
       "alertas": [
         {
           "codigo": "LIMITE_ANTIGUEDAD",
-          "mensaje": "Gasto tiene 97 días. Excede el límite máximo de 60 días."
+          "mensaje": "Gasto tiene 98 días. Excede el límite máximo de 60 días."
         }
       ],
       "es_duplicado": true,
@@ -767,7 +790,7 @@
       "alertas": [
         {
           "codigo": "LIMITE_ANTIGUEDAD",
-          "mensaje": "Gasto tiene 97 días. Excede el límite máximo de 60 días."
+          "mensaje": "Gasto tiene 98 días. Excede el límite máximo de 60 días."
         }
       ],
       "es_duplicado": true,
@@ -894,7 +917,7 @@
       "alertas": [
         {
           "codigo": "LIMITE_ANTIGUEDAD",
-          "mensaje": "Gasto tiene 97 días. Excede el límite máximo de 60 días."
+          "mensaje": "Gasto tiene 98 días. Excede el límite máximo de 60 días."
         }
       ],
       "es_duplicado": true,
@@ -913,7 +936,7 @@
       "alertas": [
         {
           "codigo": "LIMITE_ANTIGUEDAD",
-          "mensaje": "Gasto tiene 143 días. Excede el límite máximo de 60 días."
+          "mensaje": "Gasto tiene 144 días. Excede el límite máximo de 60 días."
         }
       ],
       "es_duplicado": false,

@@ -137,8 +137,39 @@ function buildGasto(row: CsvRow, montoUsd: number): Gasto {
 
 function generateAnalysisMd(output: AnalysisOutput): string {
   const lines: string[] = [];
+  const executionDate = new Date().toISOString().split('T')[0];
+  const { policy } = output;
 
   lines.push('# Análisis de Gastos Históricos');
+  lines.push('');
+  lines.push(`**Fecha de ejecución:** ${executionDate}`);
+  lines.push('**Política aplicada:** CONFIGURACIÓN PERSONALIZADA');
+  lines.push('');
+  lines.push('| Parámetro | Valor |');
+  lines.push('|-----------|-------|');
+  lines.push(`| Moneda base | ${policy.moneda_base} |`);
+  lines.push(
+    `| Límite antigüedad (PENDIENTE) | ≤${policy.limite_antiguedad.pendiente_dias} días |`,
+  );
+  lines.push(
+    `| Límite antigüedad (RECHAZADO) | >${policy.limite_antiguedad.rechazado_dias} días |`,
+  );
+
+  const categoryLimits = Object.entries(policy.limites_por_categoria)
+    .map(
+      ([cat, limit]) =>
+        `${cat}: ≤${limit.aprobado_hasta} APROBADO, ${limit.aprobado_hasta}-${limit.pendiente_hasta} PENDIENTE, >${limit.pendiente_hasta} RECHAZADO`,
+    )
+    .join('; ');
+  lines.push(`| Límites por categoría | ${categoryLimits} |`);
+
+  const crossRules = policy.reglas_centro_costo
+    .map((r) => `${r.cost_center} + ${r.categoria_prohibida} → RECHAZADO`)
+    .join('; ');
+  lines.push(`| Reglas cruzadas | ${crossRules} |`);
+
+  lines.push('');
+  lines.push('---');
   lines.push('');
   lines.push('## Resumen por Estado');
   lines.push('');
@@ -273,6 +304,7 @@ async function main() {
       negativos: negatives.length,
       monto_total_usd: Math.round(montoTotalUsd * 100) / 100,
     },
+    policy: DEFAULT_POLICY,
     results,
     anomalies: {
       duplicates,

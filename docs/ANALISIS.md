@@ -1,5 +1,18 @@
 # Análisis de Gastos Históricos
 
+**Fecha de ejecución:** 2026-06-22
+**Política aplicada:** CONFIGURACIÓN PERSONALIZADA
+
+| Parámetro | Valor |
+|-----------|-------|
+| Moneda base | USD |
+| Límite antigüedad (PENDIENTE) | ≤30 días |
+| Límite antigüedad (RECHAZADO) | >60 días |
+| Límites por categoría | food: ≤100 APROBADO, 100-150 PENDIENTE, >150 RECHAZADO; transport: ≤200 APROBADO, 200-200 PENDIENTE, >200 RECHAZADO |
+| Reglas cruzadas | core_engineering + food → RECHAZADO |
+
+---
+
 ## Resumen por Estado
 
 | Estado | Cantidad | Monto Total (USD) |
