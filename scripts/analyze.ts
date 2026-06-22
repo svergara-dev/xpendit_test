@@ -289,10 +289,17 @@ async function main() {
     });
   }
 
-  const aprobados = results.filter((r) => r.status === 'APROBADO').length;
-  const pendientes = results.filter((r) => r.status === 'PENDIENTE').length;
-  const rechazados = results.filter((r) => r.status === 'RECHAZADO').length;
-  const montoTotalUsd = results.reduce((sum, r) => sum + r.monto_usd, 0);
+  let aprobados = 0;
+  let pendientes = 0;
+  let rechazados = 0;
+  let montoTotalUsd = 0;
+
+  for (const r of results) {
+    montoTotalUsd += r.monto_usd;
+    if (r.status === 'APROBADO') aprobados++;
+    else if (r.status === 'PENDIENTE') pendientes++;
+    else rechazados++;
+  }
 
   const output: AnalysisOutput = {
     summary: {
