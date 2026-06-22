@@ -42,7 +42,7 @@ src/
     │   └── dto/
 scripts/
 ├── analyze.ts               # Part 3 batch analyzer (main entry)
-├── types.ts                 # Types for CSV rows and analysis results
+├── types.ts                 # Types for CSV rows, analysis results, and policy config
 └── policy.ts                # Default policy for batch analysis
 docs/
 ├── DESAFIO.md               # Original challenge requirements (Spanish)
@@ -92,7 +92,7 @@ chore: update TypeScript to 4.9.5 for class-validator compatibility
 
 - `dist/` is in .gitignore but may exist from previous builds.
 - `test/` directory doesn't exist — `npm run test:e2e` will fail (no e2e tests yet).
-- `scripts/analyze.ts` generates ANALISIS.md and results.json when run.
+- `scripts/analyze.ts` generates ANALISIS.md (with policy metadata) and results.json when run.
 - `scripts/analyze.ts` validates API key using `/usage.json` (free endpoint, no quota consumption).
 - `scripts/analyze.ts` loads `.env` automatically via dotenv.
 - `ExchangeRateModule` has service with in-memory cache (Map by date).
