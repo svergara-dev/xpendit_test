@@ -26,5 +26,6 @@ Registro de correcciones y feedback del usuario durante el desarrollo.
 | 2025-06-21 | Part 1 | Documented categories without limits auto-approve behavior in README as business rule to validate with product team | Yes |
 | 2025-06-21 | Part 3 | Made policy dynamic in ANALISIS.md - added PolicyConfig interface, policy field in AnalysisOutput, and dynamic metadata generation | Yes |
 | 2025-06-21 | Part 1 | Optimized Big O: evaluarReglaCentroCosto O(R)→O(1) with Map cache, state counting O(3N)→O(N) with single loop | Yes |
+| 2025-06-22 | Part 1 | Fixed bug: negative amounts were incorrectly APPROVED. Added validation in validation-engine.ts to RECHAZADO negative amounts before rule evaluation. Tests: 61→63 | Yes |
 
 ---

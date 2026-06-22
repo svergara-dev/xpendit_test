@@ -14,6 +14,19 @@ export function validarGasto(
   empleado: Empleado,
   politica: Politica,
 ): ValidationResult {
+  if (gasto.monto < 0) {
+    return {
+      gasto_id: gasto.id,
+      status: ExpenseStatus.RECHAZADO,
+      alertas: [
+        {
+          codigo: 'MONTO_NEGATIVO',
+          mensaje: `El monto ${gasto.monto} ${gasto.moneda} es inválido. No se permiten montos negativos.`,
+        },
+      ],
+    };
+  }
+
   const resultados: RuleResult[] = [];
 
   resultados.push(evaluarAntiguedad(gasto, politica));

@@ -10,7 +10,7 @@ NestJS + TypeScript app: **Xpendit Motor de Reglas** (expense rule engine). Thre
 npm run lint        # ESLint + auto-fix
 npm run format      # Prettier
 npm run build       # nest build (compiles to dist/)
-npm run test        # Jest unit tests (61 tests, all should pass)
+npm run test        # Jest unit tests (63 tests, all should pass)
 npm run test:cov    # Jest with coverage
 npm run start:dev   # Hot-reload dev server on port 3000
 npm run analyze     # Part 3 batch analyzer (generates docs/ANALISIS.md + docs/results.json)

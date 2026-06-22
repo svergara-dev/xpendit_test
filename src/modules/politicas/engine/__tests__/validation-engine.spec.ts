@@ -193,6 +193,22 @@ describe('ValidationEngine', () => {
       expect(resultado.alertas.length).toBeGreaterThan(0);
       expect(resultado.alertas[0].codigo).toBe('LIMITE_CATEGORIA');
     });
+
+    it('should return REJECTED for negative amount', () => {
+      const gasto = crearGasto({ monto: -50 });
+      const resultado = validarGasto(gasto, empleadoBase, politicaBase);
+      expect(resultado.status).toBe(ExpenseStatus.RECHAZADO);
+      expect(resultado.alertas.length).toBeGreaterThan(0);
+      expect(resultado.alertas[0].codigo).toBe('MONTO_NEGATIVO');
+    });
+
+    it('should return REJECTED for large negative amount', () => {
+      const gasto = crearGasto({ monto: -150.5 });
+      const resultado = validarGasto(gasto, empleadoBase, politicaBase);
+      expect(resultado.status).toBe(ExpenseStatus.RECHAZADO);
+      expect(resultado.alertas.length).toBeGreaterThan(0);
+      expect(resultado.alertas[0].codigo).toBe('MONTO_NEGATIVO');
+    });
   });
 
   describe('Priority', () => {
