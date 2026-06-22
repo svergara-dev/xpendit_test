@@ -105,6 +105,7 @@ chore: update TypeScript to 4.9.5 for class-validator compatibility
 - `.env.example` contains `OPEN_EXCHANGE_RATES_APP_ID` — copy to `.env` for Part 2+.
 - `scripts/analyze.ts` loads `.env` automatically via dotenv (no manual env setup needed).
 - `evaluarReglaCentroCosto` uses Map cache for O(1) rule lookup instead of O(R) Array.find().
+- `scripts/analyze.ts` has its own `fetchRatesForDate()` function instead of using `ExchangeRateService`. This is intentional: the script runs standalone via `ts-node` outside the NestJS context and cannot inject NestJS services. Both implementations use the same API endpoint and produce identical results.
 
 ## Files to Read First
 
