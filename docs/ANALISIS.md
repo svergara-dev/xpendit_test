@@ -15,12 +15,31 @@
 
 ## Resumen por Estado
 
-| Estado | Cantidad | Monto Total (USD) |
-|---|---|---|
-| APROBADO | 11 | $1165.00 |
-| PENDIENTE | 14 | $1655.86 |
-| RECHAZADO | 25 | $2568.03 |
-| **Total** | **50** | **$5388.89** |
+| Estado | Cantidad | Porcentaje | Monto Total (USD) |
+|---|---|---|---|
+| APROBADO | 11 | 22% | $1165.00 |
+| PENDIENTE | 14 | 28% | $1655.86 |
+| RECHAZADO | 25 | 50% | $2568.03 |
+| **Total** | **50** | **100%** | **$5388.89** |
+
+---
+
+## Desglose por Regla
+
+### PENDIENTE (14 gastos)
+
+| Regla | Cantidad | Porcentaje |
+|-------|----------|------------|
+| LIMITE_ANTIGUEDAD | 13 | 93% |
+| LIMITE_CATEGORIA | 5 | 36% |
+
+### RECHAZADO (25 gastos)
+
+| Regla | Cantidad | Porcentaje |
+|-------|----------|------------|
+| LIMITE_ANTIGUEDAD | 21 | 84% |
+| LIMITE_CATEGORIA | 8 | 32% |
+| POLITICA_CENTRO_COSTO | 4 | 16% |
 
 ## Anomalías Detectadas
 

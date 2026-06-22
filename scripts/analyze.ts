@@ -12,11 +12,20 @@ dotenv.config({ path: path.resolve(__dirname, '..', '.env') });
 
 const EXCHANGE_RATES_API = 'https://openexchangerates.org/api';
 const APP_ID = process.env.OPEN_EXCHANGE_RATES_APP_ID;
+
 if (!APP_ID) {
   throw new Error(
     'OPEN_EXCHANGE_RATES_APP_ID environment variable is required. Copy .env.example to .env and add your API key.',
   );
 }
+
+const ALERT_CODES = {
+  ANTIGUEDAD: 'LIMITE_ANTIGUEDAD',
+  CATEGORIA: 'LIMITE_CATEGORIA',
+  CENTRO_COSTO: 'POLITICA_CENTRO_COSTO',
+} as const;
+
+// --- CSV Parsing ---
 
 function parseCsv(filePath: string): CsvRow[] {
   const content = fs.readFileSync(path.resolve(__dirname, '..', filePath), 'utf-8');
@@ -30,6 +39,8 @@ function parseCsv(filePath: string): CsvRow[] {
     monto: parseFloat(row.monto),
   }));
 }
+
+// --- Exchange Rate API ---
 
 async function fetchRatesForDate(date: string): Promise<{ [key: string]: number }> {
   const url = `${EXCHANGE_RATES_API}/historical/${date}.json?app_id=${APP_ID}`;
@@ -73,6 +84,8 @@ async function fetchRatesGroupedByDate(
   return ratesMap;
 }
 
+// --- Currency Conversion ---
+
 function convertToUSD(
   amount: number,
   fromCurrency: string,
@@ -83,6 +96,8 @@ function convertToUSD(
   if (!rate) return amount;
   return Math.round((amount / rate) * 100) / 100;
 }
+
+// --- Anomaly Detection ---
 
 function detectDuplicates(rows: CsvRow[]): DuplicateGroup[] {
   const groups = new Map<string, string[]>();
@@ -115,6 +130,8 @@ function detectNegatives(rows: CsvRow[]): string[] {
   return rows.filter((r) => r.monto < 0).map((r) => r.gasto_id);
 }
 
+// --- Builder Functions ---
+
 function buildEmpleado(row: CsvRow): Empleado {
   return {
     id: row.empleado_id,
@@ -135,16 +152,10 @@ function buildGasto(row: CsvRow, montoUsd: number): Gasto {
   };
 }
 
-function generateAnalysisMd(output: AnalysisOutput): string {
-  const lines: string[] = [];
-  const executionDate = new Date().toISOString().split('T')[0];
-  const { policy } = output;
+// --- Report Generation Helpers ---
 
-  lines.push('# Análisis de Gastos Históricos');
-  lines.push('');
-  lines.push(`**Fecha de ejecución:** ${executionDate}`);
-  lines.push('**Política aplicada:** CONFIGURACIÓN PERSONALIZADA');
-  lines.push('');
+function generatePolicySection(policy: AnalysisOutput['policy']): string[] {
+  const lines: string[] = [];
   lines.push('| Parámetro | Valor |');
   lines.push('|-----------|-------|');
   lines.push(`| Moneda base | ${policy.moneda_base} |`);
@@ -158,7 +169,9 @@ function generateAnalysisMd(output: AnalysisOutput): string {
   const categoryLimits = Object.entries(policy.limites_por_categoria)
     .map(
       ([cat, limit]) =>
-        `${cat}: ≤${limit.aprobado_hasta} APROBADO, ${limit.aprobado_hasta}-${limit.pendiente_hasta} PENDIENTE, >${limit.pendiente_hasta} RECHAZADO`,
+        `${cat}: ≤${limit.aprobado_hasta} APROBADO, ` +
+        `${limit.aprobado_hasta}-${limit.pendiente_hasta} PENDIENTE, ` +
+        `>${limit.pendiente_hasta} RECHAZADO`,
     )
     .join('; ');
   lines.push(`| Límites por categoría | ${categoryLimits} |`);
@@ -168,37 +181,99 @@ function generateAnalysisMd(output: AnalysisOutput): string {
     .join('; ');
   lines.push(`| Reglas cruzadas | ${crossRules} |`);
 
-  lines.push('');
-  lines.push('---');
-  lines.push('');
-  lines.push('## Resumen por Estado');
-  lines.push('');
-  lines.push('| Estado | Cantidad | Monto Total (USD) |');
-  lines.push('|---|---|---|');
+  return lines;
+}
 
-  const aprobados = output.results.filter((r) => r.status === 'APROBADO');
-  const pendientes = output.results.filter((r) => r.status === 'PENDIENTE');
-  const rechazados = output.results.filter((r) => r.status === 'RECHAZADO');
+function generateSummaryTable(results: GastoResult[], total: number): string[] {
+  const lines: string[] = [];
+  const aprobados = results.filter((r) => r.status === 'APROBADO');
+  const pendientes = results.filter((r) => r.status === 'PENDIENTE');
+  const rechazados = results.filter((r) => r.status === 'RECHAZADO');
 
-  const sumUsd = (items: GastoResult[]) => items.reduce((sum, r) => sum + r.monto_usd, 0);
+  const sumUsd = (items: GastoResult[]) =>
+    items.reduce((sum, r) => sum + r.monto_usd, 0);
+  const pct = (count: number) => `${Math.round((count / total) * 100)}%`;
 
-  lines.push(`| APROBADO | ${aprobados.length} | $${sumUsd(aprobados).toFixed(2)} |`);
-  lines.push(`| PENDIENTE | ${pendientes.length} | $${sumUsd(pendientes).toFixed(2)} |`);
-  lines.push(`| RECHAZADO | ${rechazados.length} | $${sumUsd(rechazados).toFixed(2)} |`);
+  lines.push('| Estado | Cantidad | Porcentaje | Monto Total (USD) |');
+  lines.push('|---|---|---|---|');
   lines.push(
-    `| **Total** | **${output.summary.total}** | **$${output.summary.monto_total_usd.toFixed(2)}** |`,
+    `| APROBADO | ${aprobados.length} | ${pct(aprobados.length)} | $${sumUsd(aprobados).toFixed(2)} |`,
+  );
+  lines.push(
+    `| PENDIENTE | ${pendientes.length} | ${pct(pendientes.length)} | $${sumUsd(pendientes).toFixed(2)} |`,
+  );
+  lines.push(
+    `| RECHAZADO | ${rechazados.length} | ${pct(rechazados.length)} | $${sumUsd(rechazados).toFixed(2)} |`,
+  );
+  lines.push(
+    `| **Total** | **${total}** | **100%** | **$${sumUsd(results).toFixed(2)}** |`,
+  );
+
+  return lines;
+}
+
+function countAlerts(
+  results: GastoResult[],
+  status: string,
+  alertCode: string,
+): number {
+  return results.filter(
+    (r) => r.status === status && r.alertas.some((a) => a.codigo === alertCode),
+  ).length;
+}
+
+function generateRuleBreakdown(results: GastoResult[]): string[] {
+  const lines: string[] = [];
+  const pendientes = results.filter((r) => r.status === 'PENDIENTE');
+  const rechazados = results.filter((r) => r.status === 'RECHAZADO');
+  const pctOf = (count: number, base: number) =>
+    `${Math.round((count / base) * 100)}%`;
+
+  lines.push('### PENDIENTE (' + pendientes.length + ' gastos)');
+  lines.push('');
+  lines.push('| Regla | Cantidad | Porcentaje |');
+  lines.push('|-------|----------|------------|');
+
+  const pendAntiguedad = countAlerts(results, 'PENDIENTE', ALERT_CODES.ANTIGUEDAD);
+  const pendCategoria = countAlerts(results, 'PENDIENTE', ALERT_CODES.CATEGORIA);
+  lines.push(
+    `| LIMITE_ANTIGUEDAD | ${pendAntiguedad} | ${pctOf(pendAntiguedad, pendientes.length)} |`,
+  );
+  lines.push(
+    `| LIMITE_CATEGORIA | ${pendCategoria} | ${pctOf(pendCategoria, pendientes.length)} |`,
   );
   lines.push('');
 
-  lines.push('## Anomalías Detectadas');
+  lines.push('### RECHAZADO (' + rechazados.length + ' gastos)');
   lines.push('');
+  lines.push('| Regla | Cantidad | Porcentaje |');
+  lines.push('|-------|----------|------------|');
+
+  const rechAntiguedad = countAlerts(results, 'RECHAZADO', ALERT_CODES.ANTIGUEDAD);
+  const rechCategoria = countAlerts(results, 'RECHAZADO', ALERT_CODES.CATEGORIA);
+  const rechCentroCosto = countAlerts(results, 'RECHAZADO', ALERT_CODES.CENTRO_COSTO);
+  lines.push(
+    `| LIMITE_ANTIGUEDAD | ${rechAntiguedad} | ${pctOf(rechAntiguedad, rechazados.length)} |`,
+  );
+  lines.push(
+    `| LIMITE_CATEGORIA | ${rechCategoria} | ${pctOf(rechCategoria, rechazados.length)} |`,
+  );
+  lines.push(
+    `| POLITICA_CENTRO_COSTO | ${rechCentroCosto} | ${pctOf(rechCentroCosto, rechazados.length)} |`,
+  );
+
+  return lines;
+}
+
+function generateAnomaliesSection(anomalies: AnalysisOutput['anomalies']): string[] {
+  const lines: string[] = [];
 
   lines.push('### Duplicados Exactos');
   lines.push('');
-  if (output.anomalies.duplicates.length === 0) {
+  if (anomalies.duplicates.length === 0) {
     lines.push('- Ninguno detectado');
   } else {
-    for (const dup of output.anomalies.duplicates) {
+    for (const dup of anomalies.duplicates) {
       lines.push(`- **${dup.gastos.join(', ')}**: ${dup.monto} ${dup.moneda}, ${dup.fecha}`);
     }
   }
@@ -206,37 +281,198 @@ function generateAnalysisMd(output: AnalysisOutput): string {
 
   lines.push('### Montos Negativos');
   lines.push('');
-  if (output.anomalies.negatives.length === 0) {
+  if (anomalies.negatives.length === 0) {
     lines.push('- Ninguno detectado');
   } else {
-    for (const id of output.anomalies.negatives) {
+    for (const id of anomalies.negatives) {
       lines.push(`- ${id}`);
     }
   }
-  lines.push('');
 
-  lines.push('## Optimización de API');
-  lines.push('');
-  lines.push(`- **Llamadas realizadas:** ${output.apiOptimization.totalCalls}`);
-  lines.push(`- **Sin optimización:** ${output.apiOptimization.withoutOptimization}`);
-  lines.push(`- **Ahorro:** ${output.apiOptimization.savingsPercent}%`);
-  lines.push('');
+  return lines;
+}
 
-  lines.push('## Detalle por Gasto');
-  lines.push('');
+function generateApiOptimizationSection(
+  apiOptimization: AnalysisOutput['apiOptimization'],
+): string[] {
+  const lines: string[] = [];
+  lines.push(`- **Llamadas realizadas:** ${apiOptimization.totalCalls}`);
+  lines.push(`- **Sin optimización:** ${apiOptimization.withoutOptimization}`);
+  lines.push(`- **Ahorro:** ${apiOptimization.savingsPercent}%`);
+  return lines;
+}
+
+function generateDetailTable(results: GastoResult[]): string[] {
+  const lines: string[] = [];
   lines.push('| ID | Empleado | Original | USD | Estado | Alertas |');
   lines.push('|---|---|---|---|---|---|');
-  for (const r of output.results) {
-    const alertas = r.alertas.length > 0 ? r.alertas.map((a) => a.codigo).join(', ') : '-';
+
+  for (const r of results) {
+    const alertas =
+      r.alertas.length > 0 ? r.alertas.map((a) => a.codigo).join(', ') : '-';
     lines.push(
-      `| ${r.gasto_id} | ${r.empleado} | ${r.monto_original} ${r.moneda} | $${r.monto_usd.toFixed(2)} | ${r.status} | ${alertas} |`,
+      `| ${r.gasto_id} | ${r.empleado} | ${r.monto_original} ${r.moneda} | ` +
+        `$${r.monto_usd.toFixed(2)} | ${r.status} | ${alertas} |`,
     );
   }
 
-  return lines.join('\n');
+  return lines;
 }
 
-async function main() {
+function generateAnalysisMd(output: AnalysisOutput): string {
+  const executionDate = new Date().toISOString().split('T')[0];
+  const { policy, results, anomalies, apiOptimization } = output;
+  const total = output.summary.total;
+
+  const sections: string[] = [];
+
+  sections.push('# Análisis de Gastos Históricos');
+  sections.push('');
+  sections.push(`**Fecha de ejecución:** ${executionDate}`);
+  sections.push('**Política aplicada:** CONFIGURACIÓN PERSONALIZADA');
+  sections.push('');
+  sections.push(...generatePolicySection(policy));
+  sections.push('');
+  sections.push('---');
+  sections.push('');
+  sections.push('## Resumen por Estado');
+  sections.push('');
+  sections.push(...generateSummaryTable(results, total));
+  sections.push('');
+  sections.push('---');
+  sections.push('');
+  sections.push('## Desglose por Regla');
+  sections.push('');
+  sections.push(...generateRuleBreakdown(results));
+  sections.push('');
+  sections.push('## Anomalías Detectadas');
+  sections.push('');
+  sections.push(...generateAnomaliesSection(anomalies));
+  sections.push('');
+  sections.push('## Optimización de API');
+  sections.push('');
+  sections.push(...generateApiOptimizationSection(apiOptimization));
+  sections.push('');
+  sections.push('## Detalle por Gasto');
+  sections.push('');
+  sections.push(...generateDetailTable(results));
+
+  return sections.join('\n');
+}
+
+// --- Expense Processing ---
+
+function processExpenses(
+  rows: CsvRow[],
+  ratesByDate: Map<string, { [key: string]: number }>,
+  duplicateIds: Set<string>,
+  negativeIds: Set<string>,
+): GastoResult[] {
+  return rows.map((row) => {
+    const rates = ratesByDate.get(row.fecha) || { USD: 1 };
+    const montoUsd = convertToUSD(row.monto, row.moneda, rates);
+    const empleado = buildEmpleado(row);
+    const gasto = buildGasto(row, montoUsd);
+    const validation = validarGasto(gasto, empleado, DEFAULT_POLICY);
+
+    return {
+      gasto_id: row.gasto_id,
+      empleado: `${row.empleado_nombre} ${row.empleado_apellido}`,
+      cost_center: row.empleado_cost_center,
+      categoria: row.categoria,
+      monto_original: row.monto,
+      moneda: row.moneda,
+      monto_usd: montoUsd,
+      fecha: row.fecha,
+      status: validation.status,
+      alertas: validation.alertas,
+      es_duplicado: duplicateIds.has(row.gasto_id),
+      es_negativo: negativeIds.has(row.gasto_id),
+    };
+  });
+}
+
+function calculateSummary(
+  results: GastoResult[],
+  duplicates: DuplicateGroup[],
+  negatives: string[],
+): AnalysisOutput['summary'] {
+  let aprobados = 0;
+  let pendientes = 0;
+  let rechazados = 0;
+  let montoTotalUsd = 0;
+
+  for (const r of results) {
+    montoTotalUsd += r.monto_usd;
+    if (r.status === 'APROBADO') aprobados++;
+    else if (r.status === 'PENDIENTE') pendientes++;
+    else rechazados++;
+  }
+
+  return {
+    total: results.length,
+    aprobados,
+    pendientes,
+    rechazados,
+    duplicados: duplicates.length,
+    negativos: negatives.length,
+    monto_total_usd: Math.round(montoTotalUsd * 100) / 100,
+  };
+}
+
+function buildOutput(
+  summary: AnalysisOutput['summary'],
+  results: GastoResult[],
+  duplicates: DuplicateGroup[],
+  negatives: string[],
+  rowsLength: number,
+  uniqueDatesCount: number,
+): AnalysisOutput {
+  return {
+    summary,
+    policy: DEFAULT_POLICY,
+    results,
+    anomalies: {
+      duplicates,
+      negatives,
+    },
+    apiOptimization: {
+      totalCalls: uniqueDatesCount,
+      withoutOptimization: rowsLength,
+      savingsPercent: Math.round(((rowsLength - uniqueDatesCount) / rowsLength) * 100),
+    },
+  };
+}
+
+function saveOutput(output: AnalysisOutput): void {
+  const docsDir = path.resolve(__dirname, '..', 'docs');
+
+  const jsonPath = path.join(docsDir, 'results.json');
+  fs.writeFileSync(jsonPath, JSON.stringify(output, null, 2));
+  console.log(`Results saved to docs/results.json`);
+
+  const mdContent = generateAnalysisMd(output);
+  const mdPath = path.join(docsDir, 'ANALISIS.md');
+  fs.writeFileSync(mdPath, mdContent);
+  console.log('Report saved to docs/ANALISIS.md\n');
+}
+
+function printSummary(output: AnalysisOutput): void {
+  console.log('=== Summary ===');
+  console.log(`Total: ${output.summary.total}`);
+  console.log(`APROBADOS: ${output.summary.aprobados}`);
+  console.log(`PENDIENTES: ${output.summary.pendientes}`);
+  console.log(`RECHAZADOS: ${output.summary.rechazados}`);
+  console.log(`Duplicate groups: ${output.summary.duplicados}`);
+  console.log(`Negative amounts: ${output.summary.negativos}`);
+  console.log(
+    `API calls: ${output.apiOptimization.totalCalls} (vs ${output.apiOptimization.withoutOptimization} without optimization)`,
+  );
+}
+
+// --- Main Entry Point ---
+
+async function main(): Promise<void> {
   console.log('=== Xpendit Batch Analyzer ===\n');
 
   const isValid = await validateApiKey();
@@ -264,85 +500,19 @@ async function main() {
   const duplicateIds = new Set(duplicates.flatMap((d) => d.gastos));
   const negativeIds = new Set(negatives);
 
-  const results: GastoResult[] = [];
-
-  for (const row of rows) {
-    const rates = ratesByDate.get(row.fecha) || { USD: 1 };
-    const montoUsd = convertToUSD(row.monto, row.moneda, rates);
-    const empleado = buildEmpleado(row);
-    const gasto = buildGasto(row, montoUsd);
-    const validation = validarGasto(gasto, empleado, DEFAULT_POLICY);
-
-    results.push({
-      gasto_id: row.gasto_id,
-      empleado: `${row.empleado_nombre} ${row.empleado_apellido}`,
-      cost_center: row.empleado_cost_center,
-      categoria: row.categoria,
-      monto_original: row.monto,
-      moneda: row.moneda,
-      monto_usd: montoUsd,
-      fecha: row.fecha,
-      status: validation.status,
-      alertas: validation.alertas,
-      es_duplicado: duplicateIds.has(row.gasto_id),
-      es_negativo: negativeIds.has(row.gasto_id),
-    });
-  }
-
-  let aprobados = 0;
-  let pendientes = 0;
-  let rechazados = 0;
-  let montoTotalUsd = 0;
-
-  for (const r of results) {
-    montoTotalUsd += r.monto_usd;
-    if (r.status === 'APROBADO') aprobados++;
-    else if (r.status === 'PENDIENTE') pendientes++;
-    else rechazados++;
-  }
-
-  const output: AnalysisOutput = {
-    summary: {
-      total: results.length,
-      aprobados,
-      pendientes,
-      rechazados,
-      duplicados: duplicates.length,
-      negativos: negatives.length,
-      monto_total_usd: Math.round(montoTotalUsd * 100) / 100,
-    },
-    policy: DEFAULT_POLICY,
+  const results = processExpenses(rows, ratesByDate, duplicateIds, negativeIds);
+  const summary = calculateSummary(results, duplicates, negatives);
+  const output = buildOutput(
+    summary,
     results,
-    anomalies: {
-      duplicates,
-      negatives,
-    },
-    apiOptimization: {
-      totalCalls: ratesByDate.size,
-      withoutOptimization: rows.length,
-      savingsPercent: Math.round(((rows.length - ratesByDate.size) / rows.length) * 100),
-    },
-  };
+    duplicates,
+    negatives,
+    rows.length,
+    ratesByDate.size,
+  );
 
-  const docsDir = path.resolve(__dirname, '..', 'docs');
-
-  const jsonPath = path.join(docsDir, 'results.json');
-  fs.writeFileSync(jsonPath, JSON.stringify(output, null, 2));
-  console.log(`Results saved to docs/results.json`);
-
-  const mdContent = generateAnalysisMd(output);
-  const mdPath = path.join(docsDir, 'ANALISIS.md');
-  fs.writeFileSync(mdPath, mdContent);
-  console.log('Report saved to docs/ANALISIS.md\n');
-
-  console.log('=== Summary ===');
-  console.log(`Total: ${output.summary.total}`);
-  console.log(`APROBADOS: ${aprobados}`);
-  console.log(`PENDIENTES: ${pendientes}`);
-  console.log(`RECHAZADOS: ${rechazados}`);
-  console.log(`Duplicate groups: ${duplicates.length}`);
-  console.log(`Negative amounts: ${negatives.length}`);
-  console.log(`API calls: ${ratesByDate.size} (vs ${rows.length} without optimization)`);
+  saveOutput(output);
+  printSummary(output);
 }
 
 main().catch(console.error);
