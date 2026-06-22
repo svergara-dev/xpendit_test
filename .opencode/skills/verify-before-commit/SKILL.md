@@ -14,6 +14,16 @@ When the user asks to commit code, always run verification steps first:
 3. Run `npm run test` — all tests must pass
 4. Only if all pass, proceed with `git add` and `git commit`
 
+## After verification passes
+
+Before committing, remind the user:
+
+```
+✅ Verification passed. Consider updating AGENTS.md and MEMORY.md if needed.
+```
+
+Wait for user confirmation before proceeding with commit.
+
 ## If verification fails
 
 - Do NOT commit
