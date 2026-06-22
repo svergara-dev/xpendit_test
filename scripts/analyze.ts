@@ -190,8 +190,7 @@ function generateSummaryTable(results: GastoResult[], total: number): string[] {
   const pendientes = results.filter((r) => r.status === 'PENDIENTE');
   const rechazados = results.filter((r) => r.status === 'RECHAZADO');
 
-  const sumUsd = (items: GastoResult[]) =>
-    items.reduce((sum, r) => sum + r.monto_usd, 0);
+  const sumUsd = (items: GastoResult[]) => items.reduce((sum, r) => sum + r.monto_usd, 0);
   const pct = (count: number) => `${Math.round((count / total) * 100)}%`;
 
   lines.push('| Estado | Cantidad | Porcentaje | Monto Total (USD) |');
@@ -205,29 +204,21 @@ function generateSummaryTable(results: GastoResult[], total: number): string[] {
   lines.push(
     `| RECHAZADO | ${rechazados.length} | ${pct(rechazados.length)} | $${sumUsd(rechazados).toFixed(2)} |`,
   );
-  lines.push(
-    `| **Total** | **${total}** | **100%** | **$${sumUsd(results).toFixed(2)}** |`,
-  );
+  lines.push(`| **Total** | **${total}** | **100%** | **$${sumUsd(results).toFixed(2)}** |`);
 
   return lines;
 }
 
-function countAlerts(
-  results: GastoResult[],
-  status: string,
-  alertCode: string,
-): number {
-  return results.filter(
-    (r) => r.status === status && r.alertas.some((a) => a.codigo === alertCode),
-  ).length;
+function countAlerts(results: GastoResult[], status: string, alertCode: string): number {
+  return results.filter((r) => r.status === status && r.alertas.some((a) => a.codigo === alertCode))
+    .length;
 }
 
 function generateRuleBreakdown(results: GastoResult[]): string[] {
   const lines: string[] = [];
   const pendientes = results.filter((r) => r.status === 'PENDIENTE');
   const rechazados = results.filter((r) => r.status === 'RECHAZADO');
-  const pctOf = (count: number, base: number) =>
-    `${Math.round((count / base) * 100)}%`;
+  const pctOf = (count: number, base: number) => `${Math.round((count / base) * 100)}%`;
 
   lines.push('### PENDIENTE (' + pendientes.length + ' gastos)');
   lines.push('');
@@ -270,9 +261,7 @@ function generateRuleBreakdown(results: GastoResult[]): string[] {
   lines.push(
     `| POLITICA_CENTRO_COSTO | ${rechCentroCosto} | ${pctOf(rechCentroCosto, rechazados.length)} |`,
   );
-  lines.push(
-    `| OTROS | ${rechOtros} | ${pctOf(rechOtros, rechazados.length)} |`,
-  );
+  lines.push(`| OTROS | ${rechOtros} | ${pctOf(rechOtros, rechazados.length)} |`);
 
   return lines;
 }
@@ -316,15 +305,14 @@ function generateApiOptimizationSection(
 
 function generateDetailTable(results: GastoResult[]): string[] {
   const lines: string[] = [];
-  lines.push('| ID | Empleado | Original | USD | Estado | Alertas |');
-  lines.push('|---|---|---|---|---|---|');
+  lines.push('| ID | Empleado | Original | USD | Fecha | Estado | Alertas |');
+  lines.push('|---|---|---|---|---|---|---|');
 
   for (const r of results) {
-    const alertas =
-      r.alertas.length > 0 ? r.alertas.map((a) => a.codigo).join(', ') : '-';
+    const alertas = r.alertas.length > 0 ? r.alertas.map((a) => a.codigo).join(', ') : '-';
     lines.push(
       `| ${r.gasto_id} | ${r.empleado} | ${r.monto_original} ${r.moneda} | ` +
-        `$${r.monto_usd.toFixed(2)} | ${r.status} | ${alertas} |`,
+        `$${r.monto_usd.toFixed(2)} | ${r.fecha} | ${r.status} | ${alertas} |`,
     );
   }
 
