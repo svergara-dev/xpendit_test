@@ -71,6 +71,25 @@ Por lo tanto, siempre habrá al menos un APROBADO en los resultados, y la
 condición "ninguna regla aplica" nunca se cumple. El default PENDIENTE solo
 sería alcanzable si se agregaran reglas que puedan retornar un estado "no aplica".
 
+### Nota sobre categorías sin límite definido
+
+El motor aprueba automáticamente gastos en categorías que no tienen límites definidos
+en la política (ej. "software", "transport", "lodging"). Esta es una decisión de 
+diseño que asume que:
+
+- Solo las categorías con riesgo requieren límites explícitos
+- Categorías nuevas funcionan sin necesidad de cambiar la política
+
+En un entorno de producción, esta decisión debería ser validada con el equipo de 
+producto/finanzas para determinar si:
+
+1. Las categorías sin límite deben aprobarse automáticamente (comportamiento actual)
+2. Deberían requerir revisión humana (PENDIENTE)
+3. Deberían rechazarse hasta definir una política explícita
+
+Esta flexibilidad es intencional para el prototipo, pero una implementación real
+debería considerar una lista blanca de categorías permitidas.
+
 ## Arquitectura
 
 ```
