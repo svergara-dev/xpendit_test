@@ -98,6 +98,19 @@ producto/finanzas para determinar si:
 Esta flexibilidad es intencional para el prototipo, pero una implementación real
 debería considerar una lista blanca de categorías permitidas.
 
+### Nota sobre categoría OTROS en ANALISIS.md
+
+La tabla de desglose RECHAZADO incluye una fila "OTROS" que cuenta gastos rechazados
+que no coinciden con ninguna de las 3 reglas principales (antigüedad, categoría,
+centro de costo). Esto cubre alertas generadas por validaciones adicionales como:
+
+- **MONTO_NEGATIVO** — gastos con montos negativos
+- **FECHA_FUTURA** — gastos con fechas futuras
+
+En el dataset actual, OTROS = 0 porque no existen estos casos edge. La categoría
+se incluye para trazabilidad: si en el futuro se agregan más validaciones al motor,
+el reporte las reflejará automáticamente.
+
 ## Arquitectura
 
 ```
