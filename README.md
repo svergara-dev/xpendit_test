@@ -57,6 +57,14 @@ Esto procesará el archivo `data/gastos_historicos.csv` y generará:
 - `ANALISIS.md` — Reporte de hallazgos
 - `scripts/results.json` — Resultados detallados
 
+### Nota sobre implementación API en analyze.ts
+
+El script `analyze.ts` tiene su propia función `fetchRatesForDate()` en lugar de usar
+`ExchangeRateService`. Esto es intencional: el script se ejecuta de forma independiente
+con `ts-node` fuera del contexto NestJS y no puede inyectar servicios NestJS.
+
+Ambas implementaciones usan el mismo endpoint de la API y producen resultados idénticos.
+
 ### Nota sobre el caso por defecto (PENDIENTE)
 
 La especificación del desafío indica que el estado por defecto debe ser PENDIENTE cuando
